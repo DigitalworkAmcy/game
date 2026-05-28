@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio del Juego</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:
+      linear-gradient(135deg, rgba(15,23,42,0.92), rgba(37,99,235,0.85)),
+      url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1920&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+      overflow:hidden;
+      color:white;
+    }
+
+    .container{
+      width:420px;
+      max-width:90%;
+      padding:45px;
+      border-radius:28px;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,0.15);
+      box-shadow:0 10px 40px rgba(0,0,0,0.45);
+      text-align:center;
+      animation:entrada 1s ease;
+    }
+
+    @keyframes entrada{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    h1{
+      font-size:2.8rem;
+      margin-bottom:15px;
+      color:#ffffff;
+    }
+
+    p{
+      color:#dbeafe;
+      margin-bottom:35px;
+      font-size:1.05rem;
+      line-height:1.6;
+    }
+
+    .input-group{
+      margin-bottom:30px;
+    }
+
+    input{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:15px;
+      outline:none;
+      font-size:1rem;
+      background:rgba(255,255,255,0.15);
+      color:white;
+      transition:0.3s;
+    }
+
+    input::placeholder{
+      color:#cbd5e1;
+    }
+
+    input:focus{
+      background:rgba(255,255,255,0.22);
+      transform:scale(1.02);
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:15px;
+      font-size:1rem;
+      font-weight:bold;
+      cursor:pointer;
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+      color:white;
+      transition:0.3s;
+      box-shadow:0 5px 20px rgba(37,99,235,0.5);
+    }
+
+    button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 25px rgba(37,99,235,0.7);
+    }
+
+    .footer{
+      margin-top:25px;
+      font-size:0.9rem;
+      color:#cbd5e1;
+    }
+
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Bienvenido</h1>
+
+    <p>
+      Ingresa tu nombre para comenzar la aventura
+      y poner a prueba tus conocimientos.
+    </p>
+
+    <div class="input-group">
+
+      <input
+        type="text"
+        id="nombreJugador"
+        placeholder="Escribe tu nombre"
+      >
+
+    </div>
+
+    <button onclick="comenzarJuego()">
+      COMENZAR
+    </button>
+
+    <div class="footer">
+      Juego Online © 2026
+    </div>
+
+  </div>
+
+  <script>
+
+    // Cargar nombre guardado si existe
+    window.onload = function(){
+
+      const nombreGuardado = localStorage.getItem("jugador");
+
+      if(nombreGuardado){
+
+        document.getElementById("nombreJugador").value =
+        nombreGuardado;
+
+      }
+
+    }
+
+    function comenzarJuego(){
+
+      const nombre = document
+        .getElementById("nombreJugador")
+        .value
+        .trim();
+
+      // Validar nombre vacío
+      if(nombre === ""){
+
+        alert("Por favor ingresa un nombre");
+
+        return;
+
+      }
+
+      // Guardar nombre del jugador
+      localStorage.setItem("jugador", nombre);
+
+      // Reiniciar puntaje
+      localStorage.setItem("puntaje", 0);
+
+      // INICIAR CRONOMETRO GLOBAL
+      localStorage.setItem("inicioTiempo", Date.now());
+
+      // Ir al primer juego
+      window.location.href = "j1.html";
+
+    }
+
+  </script>
+
+</body>
+</html>
