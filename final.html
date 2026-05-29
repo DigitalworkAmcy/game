@@ -6,7 +6,6 @@
   <title>Resultado Final</title>
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -34,104 +33,122 @@
       background:rgba(255,255,255,0.08);
       backdrop-filter:blur(12px);
       border-radius:30px;
-      padding:50px;
-      text-align:center;
+      padding:40px;
       box-shadow:0 10px 40px rgba(0,0,0,0.5);
       border:1px solid rgba(255,255,255,0.1);
-      animation:fadeIn 1s ease;
+      text-align:center;
+      animation:zoomIn 0.8s ease;
     }
 
-    @keyframes fadeIn{
+    @keyframes zoomIn{
       from{
         opacity:0;
-        transform:translateY(20px);
+        transform:scale(0.95);
       }
       to{
         opacity:1;
-        transform:translateY(0);
+        transform:scale(1);
       }
     }
 
-    h1{
-      font-size:3rem;
+    .trofeo{
+      font-size:5rem;
       margin-bottom:20px;
-      color:#ffffff;
+      animation:bounce 2s infinite;
+    }
+
+    @keyframes bounce{
+      0%, 100%{ transform:translateY(0); }
+      50%{ transform:translateY(-10px); }
+    }
+
+    h1{
+      font-size:2.5rem;
+      margin-bottom:10px;
+      color:#93c5fd;
     }
 
     .jugador{
       font-size:1.3rem;
       color:#cbd5e1;
-      margin-bottom:15px;
+      margin-bottom:30px;
     }
 
-    .cronometro{
-      font-size:1.5rem;
-      color:#93c5fd;
+    .box-resultado{
+      background:rgba(255,255,255,0.06);
+      border-radius:20px;
+      padding:30px;
       margin-bottom:35px;
-      font-weight:bold;
+      border:1px solid rgba(255,255,255,0.08);
     }
 
-    .resultado-box{
-      background:rgba(255,255,255,0.08);
-      border-radius:25px;
-      padding:40px;
-      margin-bottom:35px;
-      border:1px solid rgba(255,255,255,0.1);
-    }
-
-    .resultado-box h2{
-      font-size:2rem;
-      margin-bottom:20px;
-      color:#93c5fd;
-    }
-
-    .puntaje{
-      font-size:5rem;
-      font-weight:bold;
-      color:#ffffff;
-      margin-bottom:15px;
-    }
-
-    .detalle{
+    .puntaje-titulo{
       font-size:1.2rem;
-      color:#dbeafe;
-      line-height:1.8;
+      color:#94a3b8;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:10px;
+    }
+
+    .puntaje-numero{
+      font-size:4.5rem;
+      font-weight:bold;
+      color:#3b82f6;
+      text-shadow:0 0 20px rgba(59,130,246,0.3);
+      line-height:1;
       margin-bottom:15px;
     }
 
     .mensaje-final{
+      font-size:1.25rem;
+      color:#f1f5f9;
+      line-height:1.6;
+    }
+
+    .datos-tiempo{
+      display:flex;
+      justify-content:center;
+      gap:30px;
       margin-top:20px;
-      font-size:1.4rem;
-      color:#f8fafc;
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,0.1);
+      font-size:1.1rem;
+      color:#cbd5e1;
+    }
+
+    .cronometro{
+      font-size:1.2rem;
+      color:#93c5fd;
       font-weight:bold;
+      margin-bottom:25px;
     }
 
     button{
-      padding:16px 45px;
+      padding:16px 40px;
       border:none;
       border-radius:15px;
       background:linear-gradient(135deg,#2563eb,#3b82f6);
       color:white;
-      font-size:1rem;
+      font-size:1.1rem;
       font-weight:bold;
       cursor:pointer;
       transition:0.3s;
-      box-shadow:0 5px 20px rgba(37,99,235,0.5);
+      box-shadow:0 5px 20px rgba(37,99,235,0.4);
     }
 
     button:hover{
       transform:translateY(-3px);
-      box-shadow:0 8px 25px rgba(37,99,235,0.7);
+      box-shadow:0 8px 25px rgba(37,99,235,0.6);
     }
-
   </style>
-
 </head>
 <body>
 
   <div class="container">
 
-    <h1>Resultado Final</h1>
+    <div class="trofeo">🏆</div>
+
+    <h1>¡Trivia Completada!</h1>
 
     <div class="jugador" id="jugador"></div>
 
@@ -139,22 +156,14 @@
       Tiempo Total: 00:00
     </div>
 
-    <div class="resultado-box">
-
-      <h2>Puntaje Total</h2>
-
-      <div class="puntaje" id="puntajeFinal">
-        0
-      </div>
-
-      <div class="detalle">
-        Resultado acumulado de todos los juegos completados.
-      </div>
-
-      <div class="detalle" id="tiempoFinal"></div>
-
+    <div class="box-resultado">
+      <div class="puntaje-titulo">Puntaje Total Acumulado</div>
+      <div class="puntaje-numero" id="puntajeFinal">0</div>
       <div class="mensaje-final" id="mensajeFinal"></div>
-
+      
+      <div class="datos-tiempo" id="tiempoFinal">
+        Tiempo empleado: <strong>00:00</strong>
+      </div>
     </div>
 
     <button onclick="reiniciarJuego()">
@@ -164,111 +173,71 @@
   </div>
 
   <script>
-
     // =========================
-    // DATOS DEL JUGADOR
+    // DATOS DEL JUGADOR Y PUNTOS
     // =========================
-
     const nombre = localStorage.getItem("jugador");
-
-    const puntaje =
-    parseInt(localStorage.getItem("puntaje")) || 0;
+    const puntaje = parseInt(localStorage.getItem("puntaje")) || 0;
 
     // Mostrar jugador
-
     if(nombre){
-
       document.getElementById("jugador").innerHTML =
       "Jugador: <strong>" + nombre + "</strong>";
-
     }
 
-    // Mostrar puntaje
-
-    document.getElementById("puntajeFinal").innerHTML =
-    puntaje;
+    // Mostrar puntaje final acumulado
+    document.getElementById("puntajeFinal").innerHTML = puntaje;
 
     // =========================
-    // MENSAJE SEGUN RESULTADO
+    // MENSAJE SEGÚN EL RESULTADO
     // =========================
-
     let mensaje = "";
+    if(puntaje <= 3){
+      mensaje = "¡Sigue intentándolo! Puedes repasar los contenidos y mejorar tu marca.";
+    } else if(puntaje <= 6){
+      mensaje = "¡Buen trabajo! Tienes un conocimiento sólido sobre hábitos saludables.";
+    } else {
+      mensaje = "¡Excelente resultado! Demostraste un nivel óptimo y grandes conocimientos médicos.";
+    }
+    document.getElementById("mensajeFinal").innerHTML = mensaje;
 
-    if(puntaje <= 2){
+    // =========================
+    // PROCESAR Y CONGELAR TIEMPO
+    // =========================
+    const inicio = localStorage.getItem("inicioTiempo");
+    let tiempoGuardado = localStorage.getItem("tiempoFinal");
 
-      mensaje = "Necesitas seguir practicando.";
-
-    }else if(puntaje <= 4){
-
-      mensaje = "Buen trabajo.";
-
-    }else{
-
-      mensaje = "Excelente resultado.";
-
+    if (inicio && !tiempoGuardado) {
+      // Calculamos el tiempo empleado SOLO la primera vez que se pisa la pantalla final
+      const tiempoCalculado = Math.floor((Date.now() - inicio) / 1000);
+      localStorage.setItem("tiempoFinal", tiempoCalculado);
+      tiempoGuardado = tiempoCalculado;
+    } else if (!tiempoGuardado) {
+      tiempoGuardado = 0;
     }
 
-    document.getElementById("mensajeFinal").innerHTML =
-    mensaje;
+    // Convertir los segundos guardados a minutos y segundos con formato de dos dígitos
+    const minutos = Math.floor(parseInt(tiempoGuardado) / 60).toString().padStart(2, "0");
+    const segundos = (parseInt(tiempoGuardado) % 60).toString().padStart(2, "0");
+
+    // Reemplazar los textos del cronómetro en la interfaz gráfica
+    document.getElementById("cronometro").innerHTML = "Tiempo Total: " + minutos + ":" + segundos;
+    document.getElementById("tiempoFinal").innerHTML = "Tiempo empleado: <strong>" + minutos + ":" + segundos + "</strong>";
 
     // =========================
-    // DETENER CRONOMETRO
+    // REINICIAR EL JUEGO
     // =========================
-
-    const inicio =
-    localStorage.getItem("inicioTiempo");
-
-    let tiempoFinal = 0;
-
-    if(inicio){
-
-      // Calculamos UNA sola vez el tiempo final
-      tiempoFinal =
-      Math.floor((Date.now() - inicio) / 1000);
-
-      // Guardamos tiempo congelado
-      localStorage.setItem("tiempoFinal", tiempoFinal);
-
-    }
-
-    // Recuperar tiempo congelado
-    const tiempoGuardado =
-    parseInt(localStorage.getItem("tiempoFinal")) || 0;
-
-    // Convertir a minutos y segundos
-
-    const minutos = Math.floor(tiempoGuardado / 60)
-    .toString()
-    .padStart(2, "0");
-
-    const segundos = (tiempoGuardado % 60)
-    .toString()
-    .padStart(2, "0");
-
-    // Mostrar cronometro detenido
-
-    document.getElementById("cronometro").innerHTML =
-    "Tiempo Total: " + minutos + ":" + segundos;
-
-    document.getElementById("tiempoFinal").innerHTML =
-    "Tiempo empleado: <strong>" +
-    minutos + ":" + segundos +
-    "</strong>";
-
-    // =========================
-    // REINICIAR
-    // =========================
-
     function reiniciarJuego(){
-
-      // Limpiar tiempo final anterior
+      // Limpiamos las variables de rendimiento de la partida anterior
       localStorage.removeItem("tiempoFinal");
+      localStorage.removeItem("puntaje");
+      localStorage.removeItem("inicioTiempo");
+      
+      // Nota: Mantenemos el nombre del jugador guardado para que no deba escribirlo otra vez
 
-      // Volver al inicio
-      window.location.href = "index.html";
-
+      // CORRECCIÓN REDIRECCIÓN: Apunta de forma estricta al nombre de tu pantalla de bienvenida
+      window.location.href = "pruebaindex.html";
     }
-
   </script>
 
 </body>
