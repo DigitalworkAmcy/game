@@ -6,7 +6,6 @@
   <title>Juego 1 - Alimentación Saludable</title>
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -145,7 +144,6 @@
     }
 
     /* MODAL */
-
     .modal{
       position:fixed;
       top:0;
@@ -195,13 +193,10 @@
     }
 
     @media(max-width:800px){
-
       .opciones{
         grid-template-columns:1fr;
       }
-
     }
-
   </style>
 </head>
 <body>
@@ -221,291 +216,185 @@
     </div>
 
     <!-- PLATO PRINCIPAL -->
-
     <div class="bloque">
-
       <h2>🍽 Plato Principal</h2>
-
       <div class="opciones">
-
         <label>
           <input type="checkbox" class="correcta">
           Pechuga de pollo/pescado/carne grillada o al horno
         </label>
-
         <label>
           <input type="checkbox" class="correcta">
           Tarta casera de verduras
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Milanesa frita
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Hamburguesa o sándwich jyq
         </label>
-
       </div>
-
     </div>
 
     <!-- ACOMPAÑAMIENTO -->
-
     <div class="bloque">
-
       <h2>🥗 Acompañamiento</h2>
-
       <div class="opciones">
-
         <label>
           <input type="checkbox" class="correcta">
           Ensalada mixta
         </label>
-
         <label>
           <input type="checkbox" class="correcta">
           Arroz integral
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Papas fritas/noisette
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Puré instantáneo
         </label>
-
       </div>
-
     </div>
 
     <!-- BEBIDA -->
-
     <div class="bloque">
-
       <h2>🥤 Bebida</h2>
-
       <div class="opciones">
-
         <label>
           <input type="checkbox" class="correcta">
           Agua/soda
         </label>
-
         <label>
           <input type="checkbox" class="correcta">
           Agua saborizada sin azúcar
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Gaseosa común
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Bebida energizante
         </label>
-
       </div>
-
     </div>
 
     <!-- POSTRE -->
-
     <div class="bloque">
-
       <h2>🍎 Postre</h2>
-
       <div class="opciones">
-
         <label>
           <input type="checkbox" class="correcta">
           Fruta fresca
         </label>
-
         <label>
           <input type="checkbox" class="correcta">
           Yogur natural
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Postrecito industrial
         </label>
-
         <label>
           <input type="checkbox" class="incorrecta">
           Alfajor
         </label>
-
       </div>
-
     </div>
 
     <div class="acciones">
-
       <button onclick="evaluar()">
         ENVIAR RESPUESTAS
       </button>
-
     </div>
 
   </div>
 
   <!-- MODAL -->
-
   <div class="modal" id="modal">
-
     <div class="modal-contenido">
-
       <h2>Resultado</h2>
-
       <p id="mensaje"></p>
-
       <button onclick="continuar()">
         SIGUIENTE
       </button>
-
     </div>
-
   </div>
 
   <script>
-
     // MOSTRAR JUGADOR
-
     const nombre = localStorage.getItem("jugador");
-
     if(nombre){
-
       document.getElementById("jugador").innerHTML =
       "Jugador: <strong>" + nombre + "</strong>";
-
     }
 
-    // INICIALIZAR PUNTAJE
-
+    // INICIALIZAR PUNTAJE SI NO EXISTE
     if(localStorage.getItem("puntaje") === null){
-
       localStorage.setItem("puntaje", 0);
-
     }
 
     // EVALUAR RESPUESTAS
-
     function evaluar(){
-
       let puntos = 0;
 
-      // TODAS LAS OPCIONES CORRECTAS MARCADAS
-
-      const correctas =
-      document.querySelectorAll(".correcta");
-
+      // TODAS LAS OPCIONES CORRECTAS MARCADAS SUMAN 1 PUNTO
+      const correctas = document.querySelectorAll(".correcta");
       correctas.forEach(function(item){
-
         if(item.checked){
-
           puntos++;
-
         }
-
       });
 
-      // RESTAR SI MARCA OPCIONES INCORRECTAS
+     
 
-      const incorrectas =
-      document.querySelectorAll(".incorrecta");
-
-      incorrectas.forEach(function(item){
-
-        if(item.checked){
-
-          puntos--;
-
-        }
-
-      });
-
-      // EVITAR PUNTAJE NEGATIVO
-
+      // EVITAR PUNTAJE NEGATIVO EN LA ACTIVIDAD ACTUAL
       if(puntos < 0){
-
         puntos = 0;
-
       }
 
-      // OBTENER PUNTAJE TOTAL
-
-      let total =
-      parseInt(localStorage.getItem("puntaje"));
-
+      // OBTENER PUNTAJE ACUMULADO PREVIO
+      let total = parseInt(localStorage.getItem("puntaje")) || 0;
       total += puntos;
 
-      // GUARDAR
-
+      // GUARDAR EL NUEVO TOTAL ACUMULADO
       localStorage.setItem("puntaje", total);
 
-      // MOSTRAR MODAL
-
-      document.getElementById("modal").style.display =
-      "flex";
-
+      // MOSTRAR MODAL CON LOS RESULTADOS
+      document.getElementById("modal").style.display = "flex";
       document.getElementById("mensaje").innerHTML =
-      "Usted obtuvo <strong>" + puntos +
-      "</strong> puntos en esta actividad.<br><br>" +
-      "Puntaje acumulado: <strong>" +
-      total + "</strong>";
-
+      "Usted obtuvo <strong>" + puntos + "</strong> puntos en esta actividad.<br><br>" +
+      "Puntaje acumulado: <strong>" + total + "</strong>";
     }
 
-    // CONTINUAR
-
+    // CONTINUAR A LA PÁGINA FINAL
     function continuar(){
-
       window.location.href = "final.html";
-
     }
 
     // =========================
     // CRONOMETRO GLOBAL
     // =========================
-
     function actualizarCronometro(){
-
-      const inicio =
-      localStorage.getItem("inicioTiempo");
-
+      const inicio = localStorage.getItem("inicioTiempo");
       if(!inicio) return;
 
       const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
 
-      const transcurrido =
-      Math.floor((ahora - inicio) / 1000);
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
 
-      const minutos = Math.floor(transcurrido / 60)
-      .toString()
-      .padStart(2, "0");
-
-      const segundos = (transcurrido % 60)
-      .toString()
-      .padStart(2, "0");
-
-      document.getElementById("cronometro").innerHTML =
-      "Tiempo: " + minutos + ":" + segundos;
-
+      document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
     }
 
     actualizarCronometro();
-
     setInterval(actualizarCronometro, 1000);
-
   </script>
 
 </body>
