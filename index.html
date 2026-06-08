@@ -92,20 +92,21 @@
   </div>
 
   <script>
-    function iniciarJuego(){
-      const audio = document.getElementById("musicaFondo");
-      audio.volume = 0.6;
+  function iniciarJuego(){
+    const audio = document.getElementById("musicaFondo");
+    audio.volume = 0.6;
 
-      audio.play().catch(() => {
-        console.log("El navegador bloqueó el autoplay");
-      });
-
-      // Espera para que se escuche la música antes de cambiar de página
-      setTimeout(() => {
+    audio.play()
+      .then(() => {
+        // Redirige SOLO cuando el audio realmente empezó
         window.location.href = "equipo.html";
-      }, 1500);
-    }
-  </script>
+      })
+      .catch(() => {
+        // Si el navegador bloquea, igual avanza
+        window.location.href = "equipo.html";
+      });
+  }
+</script>
 
 </body>
 </html>
