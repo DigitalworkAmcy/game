@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundial de la Salud - Estación 1</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.15), transparent 40%),
+        linear-gradient(135deg, #0f172a, #131f38);
+      color: white;
+      overflow: hidden;
+    }
+
+    .escape-container {
+      width: 750px;
+      max-width: 95%;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 25px;
+      padding: 30px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Sección de los Enigmas/Fórmulas */
+    .panel-enigmas {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .header-estacion {
+      margin-bottom: 20px;
+    }
+
+    .header-estacion h1 {
+      font-size: 1.8rem;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .header-estacion p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-top: 5px;
+    }
+
+    .tarjeta-formula {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 4px solid #3b82f6;
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .tarjeta-formula.segunda {
+      border-left-color: #a855f7;
+    }
+
+    .tarjeta-formula h3 {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .formula-matematica {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.2rem;
+      color: #38bdf8;
+      margin: 10px 0;
+      letter-spacing: 1px;
+    }
+
+    .pista-texto {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* Sección del Teclado */
+    .panel-teclado {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pantalla-codigo {
+      width: 100%;
+      background: #020617;
+      border: 2px solid #1e293b;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      font-size: 2rem;
+      font-family: 'Courier New', Courier, monospace;
+      color: #10b981;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+      text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+
+    .pantalla-codigo.error {
+      color: #ef4444;
+      border-color: #ef4444;
+      text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+
+    .grid-teclado {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-num {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      padding: 15px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-num:hover {
+      background: #1e293b;
+      border-color: #3b82f6;
+      transform: scale(1.03);
+    }
+
+    .btn-clear {
+      background: linear-gradient(135deg, #7f1d1d, #450a0a);
+      color: #fca5a5;
+    }
+    .btn-clear:hover { background: #991b1b; border-color: #ef4444;}
+
+    .btn-enter {
+      background: linear-gradient(135deg, #064e3b, #022c22);
+      color: #6ee7b7;
+    }
+    .btn-enter:hover { background: #065f46; border-color: #10b981;}
+
+    /* MODAL EMERGENTE PERSONALIZADO */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      width: 380px;
+      padding: 35px 30px;
+      border-radius: 24px;
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-icono {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+
+    .modal-titulo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .modal-texto {
+      color: #cbd5e1;
+      font-size: 1rem;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: 0.2s;
+    }
+
+    /* Variantes dinámicas para el diseño del modal */
+    .modal-content.error-style {
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    .modal-content.error-style .modal-titulo { color: #ef4444; }
+    .modal-content.error-style .modal-btn { 
+      background: linear-gradient(135deg, #ef4444, #b91c1c); 
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    .modal-content.success-style {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .modal-content.success-style .modal-titulo { color: #10b981; }
+    .modal-content.success-style .modal-btn { 
+      background: linear-gradient(135deg, #10b981, #059669); 
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    @media (max-width: 700px) {
+      .escape-container {
+        grid-template-columns: 1fr;
+        height: 90vh;
+        overflow-y: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="musicaFondo" src="1.mp3" loop></audio>
+
+  <div class="escape-container">
+    
+    <div class="panel-enigmas">
+      <div class="header-estacion">
+        <h1>Estación 1: El Bloqueo</h1>
+        <p>Calculá las fórmulas médicas para descifrar el código de anulación de 2 dígitos.</p>
+      </div>
+
+      <div class="tarjeta-formula">
+        <h3>🔍 Enigma I: Primer Dígito</h3>
+        <p class="pista-texto">Despejá la incógnita de la tasa de accidentabilidad básica corporativa:</p>
+        <div class="formula-matematica">
+          Dígito 1 = (24 / 6) - 3
+        </div>
+        <p class="pista-texto">Nota: El resultado final corresponde al primer casillero.</p>
+      </div>
+
+      <div class="tarjeta-formula segunda">
+        <h3>🔍 Enigma II: Segundo Dígito</h3>
+        <p class="pista-texto">Auditoría de insumos médicos. Resolvé la prioridad del operador:</p>
+        <div class="formula-matematica">
+          Dígito 2 = 3 + 2 * 2
+        </div>
+        <p class="pista-texto">Nota: Recordá separar en términos antes de sumar.</p>
+      </div>
+    </div>
+
+    <div class="panel-teclado">
+      <div class="pantalla-codigo" id="displayCodigo">--</div>
+
+      <div class="grid-teclado">
+        <button class="btn-num" onclick="presionarNumero(1)">1</button>
+        <button class="btn-num" onclick="presionarNumero(2)">2</button>
+        <button class="btn-num" onclick="presionarNumero(3)">3</button>
+        <button class="btn-num" onclick="presionarNumero(4)">4</button>
+        <button class="btn-num" onclick="presionarNumero(5)">5</button>
+        <button class="btn-num" onclick="presionarNumero(6)">6</button>
+        <button class="btn-num" onclick="presionarNumero(7)">7</button>
+        <button class="btn-num" onclick="presionarNumero(8)">8</button>
+        <button class="btn-num" onclick="presionarNumero(9)">9</button>
+        <button class="btn-num btn-clear" onclick="borrarPantalla()">C</button>
+        <button class="btn-num" onclick="presionarNumero(0)">0</button>
+        <button class="btn-num btn-enter" onclick="validarCodigo()">✔</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" id="modalAlert">
+    <div class="modal-content" id="modalCard">
+      <div class="modal-icono" id="modalIcono">❌</div>
+      <div class="modal-titulo" id="modalTitulo">Error</div>
+      <div class="modal-texto" id="modalTexto">Código incorrecto. Inténtalo de nuevo.</div>
+      <button class="modal-btn" id="modalBtn" onclick="cerrarOMudar()">Volver a intentar</button>
+    </div>
+  </div>
+
+  <script>
+    const CODIGO_CORRECTO = "1"; 
+    let codigoIngresado = "";
+    let esCorrecto = false; // Nos ayuda a saber qué acción hace el botón del cartel
+
+    window.onload = function() {
+      const audio = document.getElementById("musicaFondo");
+      audio.volume = 0.6;
+      
+      const musicaActiva = localStorage.getItem("musicaActiva");
+      const tiempoGuardado = localStorage.getItem("tiempoMusica");
+
+      if (musicaActiva === "true") {
+        if (tiempoGuardado) {
+          audio.currentTime = parseFloat(tiempoGuardado);
+        }
+        audio.play().catch(err => console.log("Audio en espera", err));
+      }
+
+      setInterval(() => {
+        localStorage.setItem("tiempoMusica", audio.currentTime);
+      }, 100);
+    }
+
+    function presionarNumero(num) {
+      const display = document.getElementById("displayCodigo");
+      display.classList.remove("error");
+
+      if (codigoIngresado.length < 2) {
+        codigoIngresado += num;
+        display.innerText = codigoIngresado;
+      }
+    }
+
+    function borrarPantalla() {
+      codigoIngresado = "";
+      document.getElementById("displayCodigo").innerText = "--";
+      document.getElementById("displayCodigo").classList.remove("error");
+    }
+
+    // NUEVA FUNCIÓN: Muestra el cartel adaptando textos, iconos y estilos CSS dinámicamente
+    function mostrarMensaje(tipo) {
+      const overlay = document.getElementById("modalAlert");
+      const card = document.getElementById("modalCard");
+      const icono = document.getElementById("modalIcono");
+      const titulo = document.getElementById("modalTitulo");
+      const texto = document.getElementById("modalTexto");
+      const btn = document.getElementById("modalBtn");
+
+      card.classList.remove("error-style", "success-style");
+
+      if (tipo === "error") {
+        esCorrecto = false;
+        card.classList.add("error-style");
+        icono.innerText = "⚠️";
+        titulo.innerText = "Error";
+        texto.innerText = "Las coordenadas introducidas no son válidas. Las defensas siguen activas.";
+        btn.innerText = "Volver a intentar";
+      } else if (tipo === "exito") {
+        esCorrecto = true;
+        card.classList.add("success-style");
+        icono.innerText = "🔓";
+        titulo.innerText = "¡Acertaste!";
+        texto.innerText = "Código de anulación correcto. Se ha desbloqueado la información de la estación.";
+        btn.innerText = "Continuar a Indicaciones";
+      }
+
+      overlay.classList.add("active");
+    }
+
+    // Maneja la acción del botón del cartel emergente
+    function cerrarOMudar() {
+      const overlay = document.getElementById("modalAlert");
+      overlay.classList.remove("active");
+
+      if (esCorrecto) {
+        // Si acertó, lo redirige directo a la página solicitada
+        window.location.href = "indicaciones2.html";
+      } else {
+        // Si falló, limpia la pantalla del teclado para intentar otra vez
+        borrarPantalla();
+      }
+    }
+
+    function validarCodigo() {
+      const display = document.getElementById("displayCodigo");
+
+      if (codigoIngresado === CODIGO_CORRECTO) {
+        let puntajeActual = parseInt(localStorage.getItem("puntaje") || "0");
+        localStorage.setItem("puntaje", puntajeActual + 100);
+
+        mostrarMensaje("exito"); 
+      } else {
+        display.classList.add("error");
+        mostrarMensaje("error");
+      }
+    }
+  </script>
+</body>
+</html>
