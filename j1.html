@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego 1</title>
+  <title>Juego 1 - Alimentación Saludable</title>
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -18,7 +17,7 @@
       min-height:100vh;
       background:
       linear-gradient(rgba(15,23,42,0.9), rgba(30,41,59,0.95)),
-      url('https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=1920&auto=format&fit=crop');
+      url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1920&auto=format&fit=crop');
       background-size:cover;
       background-position:center;
       display:flex;
@@ -30,7 +29,7 @@
 
     .container{
       width:100%;
-      max-width:1200px;
+      max-width:1100px;
       background:rgba(255,255,255,0.08);
       backdrop-filter:blur(12px);
       border-radius:30px;
@@ -53,9 +52,8 @@
 
     h1{
       text-align:center;
-      font-size:3rem;
+      font-size:2.8rem;
       margin-bottom:10px;
-      color:#ffffff;
     }
 
     .jugador{
@@ -73,94 +71,57 @@
       font-weight:bold;
     }
 
-    .contenido{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:50px;
-      align-items:center;
+    .subtitulo{
+      text-align:center;
+      margin-bottom:35px;
+      color:#dbeafe;
+      font-size:1.1rem;
     }
 
-    /* OPCIONES */
-
-    .opciones{
-      display:flex;
-      flex-direction:column;
-      gap:25px;
-    }
-
-    .card-opcion{
+    .bloque{
       background:rgba(255,255,255,0.08);
       border-radius:20px;
       padding:25px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      transition:0.3s;
+      margin-bottom:25px;
       border:1px solid rgba(255,255,255,0.1);
     }
 
-    .card-opcion:hover{
-      transform:translateX(5px);
-      background:rgba(255,255,255,0.12);
+    .bloque h2{
+      margin-bottom:20px;
+      color:#93c5fd;
+      font-size:1.8rem;
     }
 
-    .animal{
-      font-size:1.5rem;
-      font-weight:bold;
+    .opciones{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
     }
 
-    select{
-      width:180px;
-      padding:12px;
-      border:none;
-      border-radius:12px;
-      font-size:1rem;
-      outline:none;
-      background:white;
-      font-weight:bold;
-    }
-
-    /* IMAGENES */
-
-    .imagenes{
-      display:flex;
-      flex-direction:column;
-      gap:25px;
-    }
-
-    .imagen-card{
-      display:flex;
-      align-items:center;
-      gap:20px;
+    label{
       background:rgba(255,255,255,0.08);
       padding:15px;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,0.1);
-      transition:0.3s;
-    }
-
-    .imagen-card:hover{
-      transform:scale(1.02);
-    }
-
-    .imagen-card img{
-      width:160px;
-      height:110px;
-      object-fit:cover;
       border-radius:15px;
-      border:3px solid rgba(255,255,255,0.2);
+      cursor:pointer;
+      transition:0.3s;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.05rem;
     }
 
-    .img-text{
-      font-size:1.2rem;
-      color:#dbeafe;
-      font-weight:bold;
+    label:hover{
+      background:rgba(255,255,255,0.15);
+      transform:translateX(5px);
     }
 
-    /* BOTON */
+    input[type="checkbox"]{
+      transform:scale(1.3);
+      cursor:pointer;
+    }
 
     .acciones{
-      margin-top:40px;
+      margin-top:35px;
       text-align:center;
     }
 
@@ -183,7 +144,6 @@
     }
 
     /* MODAL */
-
     .modal{
       position:fixed;
       top:0;
@@ -228,35 +188,140 @@
     .modal p{
       font-size:1.2rem;
       margin-bottom:30px;
-      line-height:1.6;
+      line-height:1.7;
       color:#e2e8f0;
     }
 
-    @media(max-width:900px){
+   /* Contenedor principal en cuadrícula de 2 columnas */
+.opciones-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px; /* Espacio uniforme entre tarjetas */
+  margin-top: 15px;
+}
 
-      .contenido{
+/* Estilo de la tarjeta individual */
+.tarjeta-opcion {
+  display: flex;
+  align-items: flex-start; /* Alinea el checkbox al principio (arriba) */
+  background-color: rgba(255, 255, 255, 0.07); /* Fondo sutil para la tarjeta */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 160px; /* Asegura que todas tengan el mismo alto */
+  box-sizing: border-box;
+}
+
+/* Efecto hover interactivo */
+.tarjeta-opcion:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Ajuste del checkbox para que no se deforme */
+.tarjeta-opcion input[type="checkbox"] {
+  margin-top: 5px;
+  margin-right: 12px;
+  flex-shrink: 0; /* Evita que el checkbox cambie de tamaño */
+}
+
+/* Contenedor interno para centrar imagen y texto verticalmente */
+.tarjeta-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Estilo de las imágenes */
+.img-opcion {
+  width: 100%;
+  max-width: 140px;   /* Ancho máximo controlado */
+  height: 95px;       /* Alto fijo */
+  object-fit: cover;  /* Mantiene la proporción sin deformar */
+  border-radius: 8px;
+  margin-bottom: 12px;/* Espacio fijo respecto al texto */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* Estilo del texto debajo de la imagen */
+.texto-opcion {
+  color: #fff;
+  font-size: 0.95rem;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* 1. Ocultar el checkbox nativo pero mantenerlo funcional */
+.tarjeta-opcion input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* 2. Crear el nuevo checkbox personalizado (el cuadrado vacío) */
+.tarjeta-opcion::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px; /* Bordes ligeramente redondeados */
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-right: 12px;
+  margin-top: 5px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* 3. Efecto cuando pasás el mouse por encima de la tarjeta */
+.tarjeta-opcion:hover::before {
+  border-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 4. Estilo cuando el checkbox está SELECCIONADO (Checked) */
+.tarjeta-opcion:has(input[type="checkbox"]:checked)::before {
+  background-color: #3b82f6; /* Azul moderno, cambiá este color por el que prefieras */
+  border-color: #3b82f6;
+}
+
+/* 5. Crear el tilde (✔) blanco adentro del checkbox seleccionado */
+.tarjeta-opcion:has(input[type="checkbox"]:checked)::before {
+  content: "✓";
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* 6. Opcional: Agregar un borde sutil a toda la tarjeta cuando está seleccionada */
+.tarjeta-opcion:has(input[type="checkbox"]:checked) {
+  border-color: rgba(59, 130, 246, 0.5);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+    @media(max-width:800px){
+      .opciones{
         grid-template-columns:1fr;
       }
-
-      .imagen-card{
-        flex-direction:column;
-        text-align:center;
-      }
-
-      .card-opcion{
-        flex-direction:column;
-        gap:15px;
-      }
-
     }
-
   </style>
 </head>
 <body>
 
   <div class="container">
 
-    <h1>Relaciona Correctamente</h1>
+    <h1>Alimentación Saludable</h1>
 
     <div class="jugador" id="jugador"></div>
 
@@ -264,203 +329,208 @@
       Tiempo: 00:00
     </div>
 
-    <div class="contenido">
+    <div class="subtitulo">
+      Selecciona todas las opciones saludables en cada categoría.
+    </div>
 
-      <!-- OPCIONES -->
+    <div class="bloque">
+  <h2>🍽 Plato Principal</h2>
+  <div class="opciones-grid">
+    
+    <label class="tarjeta-opcion">
+      <input type="checkbox" class="correcta">
+      <div class="tarjeta-contenido">
+        
+        <img src="img/pic1.jpg" alt="Pechuga de pollo" class="img-opcion">
+        <span class="texto-opcion">Pechuga de pollo/pescado/carne grillada o al horno</span>
+      </div>
+    </label>
 
+    <label class="tarjeta-opcion">
+      <input type="checkbox" class="correcta">
+      <div class="tarjeta-contenido">
+        <img src="img/pic2.jpg" alt="Tarta casera" class="img-opcion">
+        <span class="texto-opcion">Tarta casera de verduras</span>
+      </div>
+    </label>
+
+    <label class="tarjeta-opcion">
+      <input type="checkbox" class="incorrecta">
+      <div class="tarjeta-contenido">
+        <img src="img/pic3.jpg" alt="Milanesa frita" class="img-opcion">
+        <span class="texto-opcion">Milanesa frita</span>
+      </div>
+    </label>
+
+    <label class="tarjeta-opcion">
+      <input type="checkbox" class="incorrecta">
+      <div class="tarjeta-contenido">
+        <img src="img/pic4.jfif" alt="Hamburguesa" class="img-opcion">
+        <span class="texto-opcion">Hamburguesa o sándwich jyq</span>
+      </div>
+    </label>
+
+  
+</div>
+</div>
+
+    <!-- ACOMPAÑAMIENTO -->
+    <div class="bloque">
+      <h2>🥗 Acompañamiento</h2>
       <div class="opciones">
-
-        <div class="card-opcion">
-
-          <div class="animal">🐶 Perro</div>
-
-          <select id="r1">
-            <option value="">Elegir Imagen</option>
-            <option value="img1">Imagen 1</option>
-            <option value="img2">Imagen 2</option>
-            <option value="img3">Imagen 3</option>
-          </select>
-
-        </div>
-
-        <div class="card-opcion">
-
-          <div class="animal">🐱 Gato</div>
-
-          <select id="r2">
-            <option value="">Elegir Imagen</option>
-            <option value="img1">Imagen 1</option>
-            <option value="img2">Imagen 2</option>
-            <option value="img3">Imagen 3</option>
-          </select>
-
-        </div>
-
-        <div class="card-opcion">
-
-          <div class="animal">🐭 Ratón</div>
-
-          <select id="r3">
-            <option value="">Elegir Imagen</option>
-            <option value="img1">Imagen 1</option>
-            <option value="img2">Imagen 2</option>
-            <option value="img3">Imagen 3</option>
-          </select>
-
-        </div>
-
+        <label>
+          <input type="checkbox" class="correcta">
+          Ensalada mixta
+        </label>
+        <label>
+          <input type="checkbox" class="correcta">
+          Arroz integral
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Papas fritas/noisette
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Puré instantáneo
+        </label>
       </div>
+    </div>
 
-      <!-- IMAGENES -->
-
-      <div class="imagenes">
-
-        <div class="imagen-card">
-          <img src="img1.jpg" alt="Imagen 1">
-          <div class="img-text">Imagen 1</div>
-        </div>
-
-        <div class="imagen-card">
-          <img src="img2.jpg" alt="Imagen 2">
-          <div class="img-text">Imagen 2</div>
-        </div>
-
-        <div class="imagen-card">
-          <img src="img3.jpg" alt="Imagen 3">
-          <div class="img-text">Imagen 3</div>
-        </div>
-
+    <!-- BEBIDA -->
+    <div class="bloque">
+      <h2>🥤 Bebida</h2>
+      <div class="opciones">
+        <label>
+          <input type="checkbox" class="correcta">
+          Agua/soda
+        </label>
+        <label>
+          <input type="checkbox" class="correcta">
+          Agua saborizada sin azúcar
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Gaseosa común
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Bebida energizante
+        </label>
       </div>
+    </div>
 
+    <!-- POSTRE -->
+    <div class="bloque">
+      <h2>🍎 Postre</h2>
+      <div class="opciones">
+        <label>
+          <input type="checkbox" class="correcta">
+          Fruta fresca
+        </label>
+        <label>
+          <input type="checkbox" class="correcta">
+          Yogur natural
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Postrecito industrial
+        </label>
+        <label>
+          <input type="checkbox" class="incorrecta">
+          Alfajor
+        </label>
+      </div>
     </div>
 
     <div class="acciones">
-
       <button onclick="evaluar()">
         ENVIAR RESPUESTAS
       </button>
-
     </div>
 
   </div>
 
   <!-- MODAL -->
-
   <div class="modal" id="modal">
-
     <div class="modal-contenido">
-
       <h2>Resultado</h2>
-
       <p id="mensaje"></p>
-
       <button onclick="continuar()">
         SIGUIENTE
       </button>
-
     </div>
-
   </div>
 
   <script>
-
-    // Mostrar jugador
+    // MOSTRAR JUGADOR
     const nombre = localStorage.getItem("jugador");
-
     if(nombre){
-
       document.getElementById("jugador").innerHTML =
       "Jugador: <strong>" + nombre + "</strong>";
-
     }
 
-    // Inicializar puntaje si no existe
+    // INICIALIZAR PUNTAJE SI NO EXISTE
     if(localStorage.getItem("puntaje") === null){
-
       localStorage.setItem("puntaje", 0);
-
     }
 
+    // EVALUAR RESPUESTAS
     function evaluar(){
-
       let puntos = 0;
 
-      const r1 = document.getElementById("r1").value;
-      const r2 = document.getElementById("r2").value;
-      const r3 = document.getElementById("r3").value;
+      // TODAS LAS OPCIONES CORRECTAS MARCADAS SUMAN 1 PUNTO
+      const correctas = document.querySelectorAll(".correcta");
+      correctas.forEach(function(item){
+        if(item.checked){
+          puntos++;
+        }
+      });
 
-      // RESPUESTAS CORRECTAS
+     
 
-      if(r1 === "img1"){
-        puntos++;
+      // EVITAR PUNTAJE NEGATIVO EN LA ACTIVIDAD ACTUAL
+      if(puntos < 0){
+        puntos = 0;
       }
 
-      if(r2 === "img2"){
-        puntos++;
-      }
-
-      if(r3 === "img3"){
-        puntos++;
-      }
-
-      // Obtener puntaje actual
-      let total = parseInt(localStorage.getItem("puntaje"));
-
-      // Sumar puntos
+      // OBTENER PUNTAJE ACUMULADO PREVIO
+      let total = parseInt(localStorage.getItem("puntaje")) || 0;
       total += puntos;
 
-      // Guardar nuevo total
+      // GUARDAR EL NUEVO TOTAL ACUMULADO
       localStorage.setItem("puntaje", total);
 
-      // Mostrar modal
+      // MOSTRAR MODAL CON LOS RESULTADOS
       document.getElementById("modal").style.display = "flex";
-
       document.getElementById("mensaje").innerHTML =
-      "Usted contestó correctamente <strong>" + puntos + "</strong> respuestas.<br><br>" +
+      "Usted obtuvo <strong>" + puntos + "</strong> puntos en esta actividad.<br><br>" +
       "Puntaje acumulado: <strong>" + total + "</strong>";
-
     }
 
+    // CONTINUAR A LA PÁGINA FINAL
     function continuar(){
-
-      window.location.href = "j2.html";
-
+      window.location.href = "final.html";
     }
 
     // =========================
     // CRONOMETRO GLOBAL
     // =========================
-
     function actualizarCronometro(){
-
       const inicio = localStorage.getItem("inicioTiempo");
-
       if(!inicio) return;
 
       const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
 
-      const transcurrido =
-      Math.floor((ahora - inicio) / 1000);
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
 
-      const minutos = Math.floor(transcurrido / 60)
-      .toString()
-      .padStart(2, "0");
-
-      const segundos = (transcurrido % 60)
-      .toString()
-      .padStart(2, "0");
-
-      document.getElementById("cronometro").innerHTML =
-      "Tiempo: " + minutos + ":" + segundos;
-
+      document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
     }
 
-    // Ejecutar inmediatamente
     actualizarCronometro();
-
-    // Actualizar cada segundo
     setInterval(actualizarCronometro, 1000);
-
   </script>
 
 </body>

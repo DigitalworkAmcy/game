@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio del Juego</title>
+  <title>Mundial de la Salud - Inicio</title>
 
   <style>
 
@@ -19,9 +19,10 @@
       display:flex;
       justify-content:center;
       align-items:center;
+      /* Se utiliza Imagen2.jpg de fondo con un filtro oscuro para resaltar la tarjeta */
       background:
-      linear-gradient(135deg, rgba(15,23,42,0.92), rgba(37,99,235,0.85)),
-      url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1920&auto=format&fit=crop');
+      linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,41,59,0.9)),
+      url('Imagen2.jpg');
       background-size:cover;
       background-position:center;
       overflow:hidden;
@@ -31,7 +32,7 @@
     .container{
       width:420px;
       max-width:90%;
-      padding:45px;
+      padding:35px 40px 40px 40px;
       border-radius:28px;
       background:rgba(255,255,255,0.08);
       backdrop-filter:blur(14px);
@@ -52,21 +53,30 @@
       }
     }
 
+    .logo-actividad {
+      width: 140px;
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
     h1{
-      font-size:2.8rem;
+      font-size:2.2rem;
       margin-bottom:15px;
       color:#ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     p{
       color:#dbeafe;
-      margin-bottom:35px;
+      margin-bottom:30px;
       font-size:1.05rem;
       line-height:1.6;
     }
 
     .input-group{
-      margin-bottom:30px;
+      margin-bottom:25px;
     }
 
     input{
@@ -79,6 +89,7 @@
       background:rgba(255,255,255,0.15);
       color:white;
       transition:0.3s;
+      text-align: center;
     }
 
     input::placeholder{
@@ -122,11 +133,15 @@
 
   <div class="container">
 
-    <h1>Bienvenido</h1>
+    <!-- Incorporación del logo de la actividad -->
+    <img src="Imagen2.jpg" alt="Mundial de la Salud" class="logo-actividad">
+
+    <!-- Lema de la actividad -->
+    <h1>Mundial de la Salud</h1>
 
     <p>
-      Ingresa tu nombre para comenzar la aventura
-      y poner a prueba tus conocimientos.
+      Ingresá tu nombre para comenzar la trivia 
+      y poner a prueba tus conocimientos médicos.
     </p>
 
     <div class="input-group">
@@ -134,7 +149,7 @@
       <input
         type="text"
         id="nombreJugador"
-        placeholder="Escribe tu nombre"
+        placeholder="Escribí tu nombre"
       >
 
     </div>
@@ -144,7 +159,7 @@
     </button>
 
     <div class="footer">
-      Juego Online © 2026
+      Mundial de la Salud © 2026
     </div>
 
   </div>
