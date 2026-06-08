@@ -91,20 +91,23 @@
     </button>
   </div>
 
-  <script>
-  function iniciarJuego(){
+<script>
+  async function iniciarJuego() {
     const audio = document.getElementById("musicaFondo");
     audio.volume = 0.6;
 
-    audio.play()
-      .then(() => {
-        // Redirige SOLO cuando el audio realmente empezó
+    try {
+      // Intentamos reproducir el audio
+      await audio.play();
+      // Damos 300 milisegundos para que el audio respire antes de cambiar de página
+      setTimeout(() => {
         window.location.href = "equipo.html";
-      })
-      .catch(() => {
-        // Si el navegador bloquea, igual avanza
-        window.location.href = "equipo.html";
-      });
+      }, 300);
+    } catch (error) {
+      // Si el navegador bloquea el audio, redirige de inmediato
+      console.warn("El audio fue bloqueado por el navegador:", error);
+      window.location.href = "equipo.html";
+    }
   }
 </script>
 
