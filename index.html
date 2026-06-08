@@ -51,6 +51,7 @@
 
     p{
       margin-bottom:30px;
+      color:#dbeafe;
     }
 
     button{
@@ -63,12 +64,18 @@
       cursor:pointer;
       background:linear-gradient(135deg,#2563eb,#3b82f6);
       color:white;
+      transition:0.3s;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
     }
   </style>
 </head>
 <body>
 
-  <audio id="musicaFondo" src="music.mp3" loop></audio>
+  <!-- AUDIO -->
+  <audio id="musicaFondo" src="1.mp3" loop></audio>
 
   <div class="container">
     <img src="Imagen2.jpg" class="logo-actividad">
@@ -89,12 +96,14 @@
       const audio = document.getElementById("musicaFondo");
       audio.volume = 0.6;
 
-      audio.play().then(() => {
-        window.location.href = "equipo.html";
-      }).catch(() => {
-        // Igual redirige si el navegador bloquea
-        window.location.href = "equipo.html";
+      audio.play().catch(() => {
+        console.log("El navegador bloqueó el autoplay");
       });
+
+      // Espera para que se escuche la música antes de cambiar de página
+      setTimeout(() => {
+        window.location.href = "equipo.html";
+      }, 1500);
     }
   </script>
 
