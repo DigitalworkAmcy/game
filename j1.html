@@ -92,34 +92,6 @@
       font-size:1.8rem;
     }
 
-    .opciones{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:15px;
-    }
-
-    label{
-      background:rgba(255,255,255,0.08);
-      padding:15px;
-      border-radius:15px;
-      cursor:pointer;
-      transition:0.3s;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-size:1.05rem;
-    }
-
-    label:hover{
-      background:rgba(255,255,255,0.15);
-      transform:translateX(5px);
-    }
-
-    input[type="checkbox"]{
-      transform:scale(1.3);
-      cursor:pointer;
-    }
-
     .acciones{
       margin-top:35px;
       text-align:center;
@@ -192,128 +164,122 @@
       color:#e2e8f0;
     }
 
-   /* Contenedor principal en cuadrícula de 2 columnas */
-.opciones-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px; /* Espacio uniforme entre tarjetas */
-  margin-top: 15px;
-}
+    /* Contenedor principal en cuadrícula de 2 columnas */
+    .opciones-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
 
-/* Estilo de la tarjeta individual */
-.tarjeta-opcion {
-  display: flex;
-  align-items: flex-start; /* Alinea el checkbox al principio (arriba) */
-  background-color: rgba(255, 255, 255, 0.07); /* Fondo sutil para la tarjeta */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 160px; /* Asegura que todas tengan el mismo alto */
-  box-sizing: border-box;
-}
+    /* Estilo de la tarjeta individual */
+    .tarjeta-opcion {
+      display: flex;
+      align-items: flex-start;
+      background-color: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 160px;
+      box-sizing: border-box;
+    }
 
-/* Efecto hover interactivo */
-.tarjeta-opcion:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-}
+    /* Efecto hover interactivo */
+    .tarjeta-opcion:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
 
-/* Ajuste del checkbox para que no se deforme */
-.tarjeta-opcion input[type="checkbox"] {
-  margin-top: 5px;
-  margin-right: 12px;
-  flex-shrink: 0; /* Evita que el checkbox cambie de tamaño */
-}
+    /* Contenedor interno para centrar imagen y texto verticalmente */
+    .tarjeta-contenido {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
 
-/* Contenedor interno para centrar imagen y texto verticalmente */
-.tarjeta-contenido {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
+    /* Estilo de las imágenes */
+    .img-opcion {
+      width: 100%;
+      max-width: 140px;
+      height: 95px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
 
-/* Estilo de las imágenes */
-.img-opcion {
-  width: 100%;
-  max-width: 140px;   /* Ancho máximo controlado */
-  height: 95px;       /* Alto fijo */
-  object-fit: cover;  /* Mantiene la proporción sin deformar */
-  border-radius: 8px;
-  margin-bottom: 12px;/* Espacio fijo respecto al texto */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
+    /* Estilo del texto debajo de la imagen */
+    .texto-opcion {
+      color: #fff;
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.3;
+    }
 
-/* Estilo del texto debajo de la imagen */
-.texto-opcion {
-  color: #fff;
-  font-size: 0.95rem;
-  text-align: center;
-  line-height: 1.3;
-}
+    /* 1. Ocultar el input nativo (radio) pero mantenerlo funcional */
+    .tarjeta-opcion input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
 
-/* 1. Ocultar el checkbox nativo pero mantenerlo funcional */
-.tarjeta-opcion input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
+    /* 2. Crear el nuevo indicador personalizado (círculo vacío para tipo radio) */
+    .tarjeta-opcion::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%; /* Forma circular para simular opción única */
+      background-color: rgba(0, 0, 0, 0.2);
+      margin-right: 12px;
+      margin-top: 5px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      position: relative;
+    }
 
-/* 2. Crear el nuevo checkbox personalizado (el cuadrado vacío) */
-.tarjeta-opcion::before {
-  content: "";
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 5px; /* Bordes ligeramente redondeados */
-  background-color: rgba(0, 0, 0, 0.2);
-  margin-right: 12px;
-  margin-top: 5px;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-/* 3. Efecto cuando pasás el mouse por encima de la tarjeta */
-.tarjeta-opcion:hover::before {
-  border-color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* 4. Estilo cuando el checkbox está SELECCIONADO (Checked) */
-.tarjeta-opcion:has(input[type="checkbox"]:checked)::before {
-  background-color: #3b82f6; /* Azul moderno, cambiá este color por el que prefieras */
-  border-color: #3b82f6;
-}
-
-/* 5. Crear el tilde (✔) blanco adentro del checkbox seleccionado */
-.tarjeta-opcion:has(input[type="checkbox"]:checked)::before {
-  content: "✓";
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-/* 6. Opcional: Agregar un borde sutil a toda la tarjeta cuando está seleccionada */
-.tarjeta-opcion:has(input[type="checkbox"]:checked) {
-  border-color: rgba(59, 130, 246, 0.5);
-  background-color: rgba(59, 130, 246, 0.05);
-}
-
+    /* 3. Para pantallas chicas se adapta a una columna */
     @media(max-width:800px){
-      .opciones{
-        grid-template-columns:1fr;
+      .opciones-grid {
+        grid-template-columns: 1fr;
       }
+    }
+
+    /* 4. Efecto cuando pasás el mouse por encima de la tarjeta */
+    .tarjeta-opcion:hover::before {
+      border-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* 5. Estilo cuando la opción está SELECCIONADA (Checked) */
+    .tarjeta-opcion:has(input[type="radio"]:checked)::before {
+      background-color: #3b82f6; /* Azul moderno */
+      border-color: #3b82f6;
+    }
+
+    /* 6. Crear el tilde (✔) blanco adentro del círculo seleccionado */
+    .tarjeta-opcion:has(input[type="radio"]:checked)::before {
+      content: "✓";
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    /* 7. Agregar un borde sutil a toda la tarjeta cuando está seleccionada */
+    .tarjeta-opcion:has(input[type="radio"]:checked) {
+      border-color: rgba(59, 130, 246, 0.5);
+      background-color: rgba(59, 130, 246, 0.05);
     }
   </style>
 </head>
@@ -330,115 +296,157 @@
     </div>
 
     <div class="subtitulo">
-      Selecciona todas las opciones saludables en cada categoría.
+      Selecciona una sola opción saludable en cada categoría.
     </div>
 
     <div class="bloque">
-  <h2>🍽 Plato Principal</h2>
-  <div class="opciones-grid">
-    
-    <label class="tarjeta-opcion">
-      <input type="checkbox" class="correcta">
-      <div class="tarjeta-contenido">
+      <h2>🍽 Plato Principal</h2>
+      <div class="opciones-grid">
         
-        <img src="img/pic1.jpg" alt="Pechuga de pollo" class="img-opcion">
-        <span class="texto-opcion">Pechuga de pollo/pescado/carne grillada o al horno</span>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="plato" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/pic1.jpg" alt="Pechuga de pollo" class="img-opcion">
+            <span class="texto-opcion">Pechuga de pollo/pescado/carne grillada o al horno</span>
+          </div>
+        </label>
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="plato" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/pic2.jpg" alt="Tarta casera" class="img-opcion">
+            <span class="texto-opcion">Tarta casera de verduras</span>
+          </div>
+        </label>
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="plato" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/pic3.jpg" alt="Milanesa frita" class="img-opcion">
+            <span class="texto-opcion">Milanesa frita</span>
+          </div>
+        </label>
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="plato" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/pic4.jfif" alt="Hamburguesa" class="img-opcion">
+            <span class="texto-opcion">Hamburguesa o sándwich jyq</span>
+          </div>
+        </label>
       </div>
-    </label>
+    </div>
 
-    <label class="tarjeta-opcion">
-      <input type="checkbox" class="correcta">
-      <div class="tarjeta-contenido">
-        <img src="img/pic2.jpg" alt="Tarta casera" class="img-opcion">
-        <span class="texto-opcion">Tarta casera de verduras</span>
-      </div>
-    </label>
-
-    <label class="tarjeta-opcion">
-      <input type="checkbox" class="incorrecta">
-      <div class="tarjeta-contenido">
-        <img src="img/pic3.jpg" alt="Milanesa frita" class="img-opcion">
-        <span class="texto-opcion">Milanesa frita</span>
-      </div>
-    </label>
-
-    <label class="tarjeta-opcion">
-      <input type="checkbox" class="incorrecta">
-      <div class="tarjeta-contenido">
-        <img src="img/pic4.jfif" alt="Hamburguesa" class="img-opcion">
-        <span class="texto-opcion">Hamburguesa o sándwich jyq</span>
-      </div>
-    </label>
-
-  
-</div>
-</div>
-
-    <!-- ACOMPAÑAMIENTO -->
     <div class="bloque">
       <h2>🥗 Acompañamiento</h2>
-      <div class="opciones">
-        <label>
-          <input type="checkbox" class="correcta">
-          Ensalada mixta
+      <div class="opciones-grid">
+        
+        <label class="tarjeta-opcion">
+          <input type="radio" name="acompanamiento" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/a1.jpg" alt="Ensalada mixta" class="img-opcion">
+            <span class="texto-opcion">Ensalada mixta</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="correcta">
-          Arroz integral
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="acompanamiento" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/a2.jpg" alt="Arroz integral" class="img-opcion">
+            <span class="texto-opcion">Arroz integral</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Papas fritas/noisette
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="acompanamiento" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/a3.jpg" alt="Papas fritas" class="img-opcion">
+            <span class="texto-opcion">Papas fritas/noisette</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Puré instantáneo
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="acompanamiento" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/a4.jpg" alt="Puré instantáneo" class="img-opcion">
+            <span class="texto-opcion">Puré instantáneo</span>
+          </div>
         </label>
       </div>
     </div>
 
-    <!-- BEBIDA -->
     <div class="bloque">
       <h2>🥤 Bebida</h2>
-      <div class="opciones">
-        <label>
-          <input type="checkbox" class="correcta">
-          Agua/soda
+      <div class="opciones-grid">
+        
+        <label class="tarjeta-opcion">
+          <input type="radio" name="bebida" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/b1.jpg" alt="Agua" class="img-opcion">
+            <span class="texto-opcion">Agua/soda</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="correcta">
-          Agua saborizada sin azúcar
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="bebida" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/b2.jpg" alt="Agua saborizada" class="img-opcion">
+            <span class="texto-opcion">Agua saborizada sin azúcar</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Gaseosa común
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="bebida" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/b3.jpg" alt="Gaseosa" class="img-opcion">
+            <span class="texto-opcion">Gaseosa común</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Bebida energizante
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="bebida" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/b4.jpg" alt="Bebida energizante" class="img-opcion">
+            <span class="texto-opcion">Bebida energizante</span>
+          </div>
         </label>
       </div>
     </div>
 
-    <!-- POSTRE -->
     <div class="bloque">
       <h2>🍎 Postre</h2>
-      <div class="opciones">
-        <label>
-          <input type="checkbox" class="correcta">
-          Fruta fresca
+      <div class="opciones-grid">
+        
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/p1.jpg" alt="Fruta fresca" class="img-opcion">
+            <span class="texto-opcion">Fruta fresca</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="correcta">
-          Yogur natural
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/p2.jpg" alt="Yogur natural" class="img-opcion">
+            <span class="texto-opcion">Yogur natural</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Postrecito industrial
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/p3.jpg" alt="Postrecito industrial" class="img-opcion">
+            <span class="texto-opcion">Postrecito industrial</span>
+          </div>
         </label>
-        <label>
-          <input type="checkbox" class="incorrecta">
-          Alfajor
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="incorrecta">
+          <div class="tarjeta-contenido">
+            <img src="img/p4.jpg" alt="Alfajor" class="img-opcion">
+            <span class="texto-opcion">Alfajor</span>
+          </div>
         </label>
       </div>
     </div>
@@ -451,7 +459,6 @@
 
   </div>
 
-  <!-- MODAL -->
   <div class="modal" id="modal">
     <div class="modal-contenido">
       <h2>Resultado</h2>
@@ -479,15 +486,13 @@
     function evaluar(){
       let puntos = 0;
 
-      // TODAS LAS OPCIONES CORRECTAS MARCADAS SUMAN 1 PUNTO
+      // SE EVALÚAN LOS ELEMENTOS SELECCIONADOS QUE SEAN CORRECTOS
       const correctas = document.querySelectorAll(".correcta");
       correctas.forEach(function(item){
         if(item.checked){
           puntos++;
         }
       });
-
-     
 
       // EVITAR PUNTAJE NEGATIVO EN LA ACTIVIDAD ACTUAL
       if(puntos < 0){
