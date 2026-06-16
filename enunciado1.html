@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BESAFE LA RIOJA - Enunciado 1</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      background:
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    .container {
+      width: 680px;
+      max-width: 92%;
+      padding: 35px 40px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      text-align: center;
+      animation: entrada 0.8s ease-out;
+    }
+
+    @keyframes entrada {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bienvenida-equipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e0f4ff;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.08);
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .bienvenida-equipo span {
+      color: #ffffff;
+      font-weight: 800;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+    }
+
+    /* Paneles de Contenido Estilizados */
+    .modulo-box {
+      background: rgba(15, 23, 42, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px 25px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .modulo-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alarma-activa {
+      background: rgba(239, 68, 68, 0.25);
+      border-left: 4px solid #ef4444;
+      padding: 12px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #ffd6d6;
+    }
+
+    .instruccion-clave {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #00f0ff;
+      margin: 10px 0;
+    }
+
+    .clinica-info {
+      line-height: 1.6;
+      color: #e0f4ff;
+      font-size: 1.05rem;
+      margin-bottom: 15px;
+    }
+
+    .clinica-info ul {
+      list-style: none;
+      padding-left: 5px;
+      margin-top: 10px;
+    }
+
+    .clinica-info li {
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Caja matemática interactiva para la fórmula */
+    .formula-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .formula-calc {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fffb00;
+      margin-top: 5px;
+    }
+
+    .resultado-final {
+      background: rgba(16, 185, 129, 0.2);
+      border-left: 4px solid #10b981;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #d1fae5;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: #007bbd;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="bienvenida-equipo" id="cartelBienvenida">
+      Equipo: <span id="nombreEquipoDinamico">...</span>
+    </div>
+
+    <h1>Secuencia de Módulos</h1>
+
+    <div class="modulo-box">
+      <div class="modulo-title">
+        📦 MÓDULO 1: SENSOR DE GASES (TABACO)
+      </div>
+      
+      <div class="alarma-activa">
+        🚨 Alarma activa: "Contaminación por Monóxido de Carbono detectada..."
+      </div>
+      
+      <p class="instruccion-clave">💡 El equipo calcula el Índice Tabáquico</p>
+      <p class="instruccion-clave">➡️ Obtienen el PRIMER DÍGITO</p>
+    </div>
+
+    <div class="modulo-box">
+      <div class="modulo-title">
+        🫁 Diagnóstico Clínico
+      </div>
+      <div class="clinica-info">
+        <p><em>“No es solo pulmón, también afecta arterias”</em></p>
+        <p style="margin-top: 5px;">Niveles elevados de <strong>Monóxido de Carbono (CO)</strong> están saturando los ductos pulmonares.</p>
+        <p style="margin-top: 5px;">🛠️ El sistema de oxigenación está comprometido.</p>
+        <p style="margin-top: 5px;">❤️ Riesgo de daño progresivo en las conducciones arteriales (endotelio).</p>
+        
+        <br>
+        <strong>📋 Registro del Capitán:</strong>
+        <ul>
+          <li>🚬 Consumo: 20 cigarrillos por día</li>
+          <li>📅 Antigüedad del hábito: 10 años</li>
+          <li>🎯 Causa: manejo de ansiedad en situaciones de alta exigencia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modulo-box">
+      <div class="modulo-title">
+        🧮 Procesamiento de Datos
+      </div>
+      <div class="clinica-info">
+        <p>Para estabilizar el sistema, deberán calcular el <strong>Índice Tabáquico acumulado</strong>.</p>
+        
+        <div class="formula-box">
+          <p>Índice Tabáquico = (Cigarrillos por día × Años de fumador) / 20</p>
+          <div class="formula-calc">(20 × 10) / 20 = 10</div>
+        </div>
+
+        <div class="resultado-final">
+          📊 Índice Tabáquico detectado: 10 ——— PRIMER DÍGITO del código de desbloqueo: 1
+        </div>
+      </div>
+    </div>
+
+    <button onclick="siguientePista()">
+      🔍 Siguiente Pista
+    </button>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const equipoGuardado = localStorage.getItem("equipoJugador");
+      if (equipoGuardado) {
+        document.getElementById("nombreEquipoDinamico").innerText = equipoGuardado;
+      } else {
+        document.getElementById("cartelBienvenida").innerText = "¡Bienvenidos al Desafío!";
+      }
+    }
+
+    function siguientePista() {
+      window.location.href = "enunciado2.html";
+    }
+  </script>
+</body>
+</html>

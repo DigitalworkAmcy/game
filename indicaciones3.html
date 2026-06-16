@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BESAFE LA RIOJA - Indicaciones 1</title>
+  <title>BESAFE LA RIOJA - Indicaciones 3</title>
 
   <style>
     * {
@@ -28,15 +28,15 @@
     }
 
     .container {
-      width: 580px; /* Un poco más ancho para albergar el título grande */
+      width: 580px;
       max-width: 92%;
       padding: 40px;
       border-radius: 28px;
       background: rgba(255, 255, 255, 0.12);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       text-align: center;
       animation: entrada 0.8s ease-out;
     }
@@ -56,7 +56,7 @@
       font-size: 1.2rem;
       font-weight: 600;
       color: #e0f4ff;
-      margin-bottom: 25px; /* Más espacio con el título principal */
+      margin-bottom: 25px;
       letter-spacing: 0.5px;
       background: rgba(255, 255, 255, 0.08);
       display: inline-block;
@@ -71,7 +71,6 @@
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
     }
 
-    /* Título unificado, más grande y llamativo */
     h1 {
       font-size: 2.4rem; 
       color: #ffffff;
@@ -82,13 +81,12 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
-    /* Resaltado para la segunda parte del título */
     h1 span.destacado {
-      display: block; /* Hace que baje de línea si es necesario y tenga más fuerza */
+      display: block;
       font-size: 2.5rem;
       font-weight: 900;
       margin-top: 5px;
-      background: linear-gradient(to right, #ffffff, #e0f4ff, #ffffff);
+      background: linear-gradient(to right, #ffffff, #fffb00, #ffffff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -167,27 +165,27 @@
     </div>
     
     <h1>
-      ⏱️ Primer Tiempo:
-      <span class="destacado">💔 Ataque Cardiosaludable</span>
+      ⏱️ Tercer Tiempo:
+      <span class="destacado">🔄 Pausas Activas</span>
     </h1>
 
     <div class="card-indicaciones">
       <div class="target-txt">
-        🎯 <strong>Objetivo:</strong> Identificar factores de riesgo / protectores.
+        🎯 <strong>Objetivo:</strong> Descubrir cómo resetear el cuerpo y la mente para sostener tu máximo rendimiento laboral.
       </div>
 
       <p class="narrativa">
-        "Equipo técnico, tenemos una emergencia. El Capitán presenta una falla crítica en su sistema cardiovascular."
+        "¡Brillante trabajo cuidando la nutrición! Pero en este partido diario, el cansancio muscular y la tensión mental también juegan en contra. Llegó el momento de frenar la rutina por un instante, activar los músculos correctos y desafiar tus conocimientos sobre los cortes saludables."
       </p>
     </div>
 
     <div class="sub-info">
-      <div class="info-item">⏳ El tiempo corre...</div>
-      <div class="info-item">❤️ El sistema cardíaco está en riesgo.</div>
+      <div class="info-item">🧠 Quiz de 3 preguntas rápidas.</div>
+      <div class="info-item">⚡ ¡Cada acierto suma al global!</div>
     </div>
 
-    <button onclick="irAEstacion()">
-      ⚡ ¡ESTOY PREPARADO!
+    <button onclick="iniciarActividad()">
+      ⚡ ¡COMENZAR ACTIVIDAD!
     </button>
   </div>
 
@@ -201,15 +199,24 @@
       }
 
       const audio = document.getElementById("musicaFondo");
-      audio.pause();
-      audio.currentTime = 0;
-      
-      localStorage.setItem("musicaActiva", "false");
-      localStorage.removeItem("tiempoMusica"); 
+      audio.volume = 0.6;
+      const musicaActiva = localStorage.getItem("musicaActiva");
+      const tiempoGuardado = localStorage.getItem("tiempoMusica");
+
+      if (musicaActiva === "true") {
+        if (tiempoGuardado) {
+          audio.currentTime = parseFloat(tiempoGuardado);
+        }
+        audio.play().catch(err => console.log("Audio en espera", err));
+      }
+
+      setInterval(() => {
+        localStorage.setItem("tiempoMusica", audio.currentTime);
+      }, 100);
     }
 
-    function irAEstacion() {
-      window.location.href = "enunciado1.html";
+    function iniciarActividad() {
+      window.location.href = "estacion3.html";
     }
   </script>
 </body>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estación 5 - Tiempo de Descuento</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background:
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .info-header h1 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .bienvenida-equipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e0f4ff;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cronometro {
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .caso-clinico {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 15px 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      font-size: 1.15rem;
+      line-height: 1.5;
+      border-left: 5px solid #ffffff;
+    }
+
+    /* Diseño del juego en dos columnas paralelas */
+    .game-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media(max-width: 850px) {
+      .game-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-origen, .panel-destino {
+      background: rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-origen h3, .panel-destino h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pool-origen {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 450px;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    /* Casillas numeradas fijas para la prioridad */
+    .slots-destino {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .slot-prioridad {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(15, 23, 42, 0.2);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 6px 12px;
+      min-height: 72px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .slot-prioridad.drag-over {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #ffffff;
+    }
+
+    .num-orden {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .drop-zone-cell {
+      flex: 1;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Tarjetas de acciones modificables */
+    .card-accion {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: grab;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      user-select: none;
+    }
+
+    .card-accion:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateX(2px);
+    }
+
+    .card-accion:active {
+      cursor: grabbing;
+    }
+
+    .card-accion.dragging {
+      opacity: 0.4;
+    }
+
+    /* Botón de envío */
+    .btn-finalizar {
+      grid-column: span 2;
+      width: 100%;
+      padding: 18px;
+      background: white;
+      color: #007bbd;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .btn-finalizar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
+    }
+
+    @media(max-width: 850px) {
+      .btn-finalizar {
+        grid-column: span 1;
+      }
+    }
+
+    /* MODAL DE RESULTADOS */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 40, 70, 0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 520px;
+      max-width: 90%;
+      padding: 40px 35px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #0f172a;
+      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.4);
+      text-align: center;
+    }
+
+    .modal-titulo { 
+      font-size: 2rem; 
+      font-weight: bold; 
+      margin-bottom: 15px; 
+      text-transform: uppercase; 
+      color: #007bbd;
+    }
+
+    .modal-texto { 
+      font-size: 1.1rem; 
+      margin-bottom: 30px; 
+      line-height: 1.6; 
+      color: #334155;
+      text-align: left;
+      background: rgba(0, 123, 189, 0.05);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(0, 123, 189, 0.1);
+    }
+
+    .btn-modal {
+      width: 100%; 
+      padding: 16px; 
+      border: none; 
+      border-radius: 12px;
+      font-size: 1.1rem; 
+      font-weight: bold; 
+      cursor: pointer;
+      background: linear-gradient(135deg, #007bbd, #00b4ec); 
+      color: white; 
+      transition: 0.2s;
+    }
+    
+    .btn-modal:hover { 
+      box-shadow: 0 6px 20px rgba(0, 123, 189, 0.4);
+      transform: scale(1.01); 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="info-header">
+        <h1>Quinta Estación: Tiempo de descuento</h1>
+        <div class="bienvenida-equipo" id="cartelBienvenida" style="margin-top: 8px; display: inline-block;">
+          Equipo: <span id="nombreEquipoDinamico">Cargando...</span>
+        </div>
+      </div>
+      <div class="cronometro" id="timer">Tiempo: 00:00</div>
+    </header>
+
+    <div class="caso-clinico">
+      <strong>🚨 Situación Crítica:</strong> "Un jugador tiene dolor en el pecho y fuma... ¿Qué harías?" <br>
+      <em>Arrastrá cada una de las siguientes opciones desde el panel izquierdo hacia las casillas del panel derecho para ubicarlas en su correcto orden de prioridad.</em>
+    </div>
+
+    <div class="game-layout">
+      
+      <div class="panel-origen">
+        <h3>Acciones Disponibles</h3>
+        <div class="pool-origen" id="poolOrigen">
+          <div class="card-accion" draggable="true" id="c3" data-correct="3">Colocar al jugador en reposo, preferentemente semisentado.</div>
+          <div class="card-accion" draggable="true" id="c1" data-correct="1">Suspender la actividad física de inmediato.</div>
+          <div class="card-accion" draggable="true" id="c5" data-correct="5">No dejarlo solo y vigilar evolución.</div>
+          <div class="card-accion" draggable="true" id="c6" data-correct="6">Prepararse para RCP y uso de DEA en caso de paro cardíaco.</div>
+          <div class="card-accion" draggable="true" id="c2" data-correct="2">Evaluar signos vitales (conciencia, respiración, pulso).</div>
+          <div class="card-accion" draggable="true" id="c4" data-correct="4">Activar el sistema de emergencias médicas (EMS) sin demora.</div>
+        </div>
+      </div>
+
+      <div class="panel-destino">
+        <h3>Prioridad de Intervención</h3>
+        <div class="slots-destino">
+          
+          <div class="slot-prioridad" data-slot="1">
+            <div class="num-orden">1</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+          <div class="slot-prioridad" data-slot="2">
+            <div class="num-orden">2</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+          <div class="slot-prioridad" data-slot="3">
+            <div class="num-orden">3</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+          <div class="slot-prioridad" data-slot="4">
+            <div class="num-orden">4</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+          <div class="slot-prioridad" data-slot="5">
+            <div class="num-orden">5</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+          <div class="slot-prioridad" data-slot="6">
+            <div class="num-orden">6</div>
+            <div class="drop-zone-cell"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="btn-finalizar" onclick="evaluarEstacion()">
+        🏁 FINALIZAR ACTIVIDAD
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <div class="modal-titulo">Estación Finalizada</div>
+      <div class="modal-texto" id="mensaje">Evaluando prioridades...</div>
+      <button class="btn-modal" onclick="irAlCierre()">FINALIZAR COMPLEMENTO ➔</button>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      // Reutilizar nombre de equipo
+      const equipoGuardado = localStorage.getItem("equipoJugador") || localStorage.getItem("jugador");
+      if (equipoGuardado) {
+        document.getElementById("nombreEquipoDinamico").innerText = equipoGuardado;
+      } else {
+        document.getElementById("cartelBienvenida").innerText = "¡Desafío de Emergencias!";
+      }
+
+      initDragAndDrop();
+      setInterval(actualizarCronometro, 1000);
+    }
+
+    // ========================================================
+    // DRAG AND DROP AVANZADO (Soporte PC y Dispositivos Táctiles)
+    // ========================================================
+    function initDragAndDrop() {
+      const cards = document.querySelectorAll('.card-accion');
+      const cells = document.querySelectorAll('.drop-zone-cell');
+      const pool = document.getElementById('poolOrigen');
+      let draggedCard = null;
+
+      // Eventos estándar de Escritorio
+      cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+          draggedCard = card;
+          card.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', card.id);
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          draggedCard = null;
+        });
+
+        // Regresar elementos al pool de origen si se hace clic o doble clic
+        card.addEventListener('dblclick', () => {
+          pool.appendChild(card);
+        });
+      });
+
+      cells.forEach(cell => {
+        const slot = cell.closest('.slot-prioridad');
+
+        cell.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (cell.children.length === 0) {
+            slot.classList.add('drag-over');
+          }
+        });
+
+        cell.addEventListener('dragleave', () => {
+          slot.classList.remove('drag-over');
+        });
+
+        cell.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const id = e.dataTransfer.setData('text/plain', e.target.id);
+          
+          if (cell.children.length === 0 && draggedCard) {
+            cell.appendChild(draggedCard);
+          }
+        });
+      });
+
+      // Permitir soltar elementos de regreso en el pool vacío
+      pool.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+      pool.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (draggedCard) {
+          pool.appendChild(draggedCard);
+        }
+      });
+
+      // SOPORTE ADICIONAL PARA DISPOSITIVOS TÁCTILES (Mobile Touch)
+      cards.forEach(card => {
+        card.addEventListener('touchstart', (e) => {
+          draggedCard = card;
+          card.classList.add('dragging');
+        }, { passive: true });
+
+        card.addEventListener('touchend', (e) => {
+          card.classList.remove('dragging');
+          const touch = e.changedTouches[0];
+          const elementTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+          
+          if (!elementTarget) return;
+          
+          const targetCell = elementTarget.closest('.drop-zone-cell');
+          const targetPool = elementTarget.closest('#poolOrigen');
+
+          if (targetCell && targetCell.children.length === 0) {
+            targetCell.appendChild(draggedCard);
+          } else if (targetPool) {
+            targetPool.appendChild(draggedCard);
+          }
+          draggedCard = null;
+        });
+      });
+    }
+
+    // ========================================================
+    // EVALUACIÓN DE POSICIONES Y RESULTADOS
+    // ========================================================
+    function evaluarEstacion() {
+      const cells = document.querySelectorAll('.drop-zone-cell');
+      let correctas = 0;
+      let totalProcesadas = 0;
+
+      cells.forEach(cell => {
+        const slotId = cell.closest('.slot-prioridad').getAttribute('data-slot');
+        const card = cell.querySelector('.card-accion');
+
+        if (card) {
+          totalProcesadas++;
+          const correctId = card.getAttribute('data-correct');
+          if (slotId === correctId) {
+            correctas++;
+          }
+        }
+      });
+
+      // Validar si el usuario colocó todas antes de finalizar
+      if (totalProcesadas < 6) {
+        alert("Por favor, acomodá las 6 acciones en el panel de prioridades antes de finalizar.");
+        return;
+      }
+
+      // Cálculo de puntaje adaptado al sistema del proyecto (100 puntos por acierto)
+      let puntosEstacion = correctas * 100;
+      let totalPrevio = parseInt(localStorage.getItem("puntaje")) || 0;
+      let nuevoTotal = totalPrevio + puntosEstacion;
+      
+      localStorage.setItem("puntaje", nuevoTotal);
+
+      // Mensajes de retroalimentación en base al desempeño
+      let feedback = "";
+      if (correctas === 6) {
+        feedback = "<strong>🏆 ¡Excelente criterio médico!</strong><br>Estableciste la prioridad de forma impecable. Reconocer los síntomas, ordenar el reposo absoluto y activar el sistema de emergencias médicas de inmediato salva vidas frente a un cuadro coronario agudo.";
+      } else if (correctas >= 3) {
+        feedback = "<strong>🍏 ¡Buen trabajo de valoración!</strong><br>Lograste estructurar correctamente varias de las fases críticas. Recordá siempre que suspender la actividad e iniciar el reposo precoz disminuyen la demanda de oxígeno miocárdico inmediatamente.";
+      } else {
+        feedback = "<strong>🩺 Desafío de Protocolo</strong><br>Ubicaste pocas respuestas en su lugar ideal. Ante sospecha de un evento cardiovascular agudo en el deporte, el orden cronológico de las acciones es vital para optimizar la cadena de supervivencia.";
+      }
+
+      // Despliegue del Modal de Resultados
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("mensaje").innerHTML = 
+        feedback + "<br><br>" +
+        "Respuestas correctas realizadas: <strong>" + correctas + " / 6</strong><br>" +
+        "Puntos ganados en esta estación: <strong>" + puntosEstacion + "</strong><br>" +
+        "Puntaje acumulado total: <strong>" + nuevoTotal + "</strong>";
+    }
+
+    function irAlCierre() {
+      window.location.href = "final.html";
+    }
+
+    // ========================================================
+    // MANEJO DEL CRONÓMETRO GLOBAL CONTINUO
+    // ========================================================
+    function actualizarCronometro() {
+      const inicio = localStorage.getItem("inicioTiempo");
+      if(!inicio) return;
+
+      const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
+
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "Tiempo: " + minutos + ":" + segundos;
+    }
+  </script>
+</body>
+</html>

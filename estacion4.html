@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuarta Estación - VAR de la Salud</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background:
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .info-header h1 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .bienvenida-equipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e0f4ff;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cronometro {
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .subtitulo {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      color: #fffb00;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Filas de premisas */
+    .game-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .premisa-row {
+      background: rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .premisa-texto {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .opciones-vf {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-vf {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-vf input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .btn-vf:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* Estados seleccionados */
+    .btn-vf:has(input[type="radio"]:checked) {
+      background: #ffffff;
+      color: #007bbd;
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-finalizar {
+      width: 100%;
+      padding: 18px;
+      background: white;
+      color: #007bbd;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.15rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .btn-finalizar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
+    }
+
+    /* MODAL DE RESULTADOS */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 40, 70, 0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 480px;
+      max-width: 90%;
+      padding: 40px 35px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #0f172a;
+      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.4);
+      text-align: center;
+    }
+
+    .modal-titulo { font-size: 2rem; font-weight: bold; margin-bottom: 15px; color: #007bbd; text-transform: uppercase; }
+    .modal-texto { font-size: 1.15rem; margin-bottom: 30px; line-height: 1.6; color: #334155; }
+
+    .btn-modal {
+      width: 100%; padding: 16px; border: none; border-radius: 12px;
+      font-size: 1.1rem; font-weight: bold; cursor: pointer;
+      background: linear-gradient(135deg, #007bbd, #00b4ec); color: white; transition: 0.2s;
+    }
+    .btn-modal:hover { opacity: 0.9; transform: scale(1.02); }
+
+    @media (max-width: 700px) {
+      .premisa-row { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="musicaFondo" src="1.mp3" loop></audio>
+
+  <div class="container">
+    <header>
+      <div class="info-header">
+        <h1>⚽ Cuarta Estación: Comienza el partido</h1>
+        <div class="bienvenida-equipo" id="cartelBienvenida" style="margin-top: 8px; display: inline-block;">
+          Equipo: <span id="nombreEquipoDinamico">...</span>
+        </div>
+      </div>
+      <div class="cronometro" id="timer">⏱️ 00:00</div>
+    </header>
+
+    <div class="subtitulo">🖥️ VAR DE LA SALUD</div>
+
+    <div class="game-layout">
+      <div class="premisa-row">
+        <div class="premisa-texto">"La hipertensión siempre da síntomas"</div>
+        <div class="opciones-vf">
+          <label class="btn-vf">
+            <input type="radio" name="p1" value="V"> VERDADERO
+          </label>
+          <label class="btn-vf">
+            <input type="radio" name="p1" value="F" class="correcta"> FALSO
+          </label>
+        </div>
+      </div>
+
+      <div class="premisa-row">
+        <div class="premisa-texto">"Dormir mal impacta en la Salud"</div>
+        <div class="opciones-vf">
+          <label class="btn-vf">
+            <input type="radio" name="p2" value="V" class="correcta"> VERDADERO
+          </label>
+          <label class="btn-vf">
+            <input type="radio" name="p2" value="F"> FALSO
+          </label>
+        </div>
+      </div>
+
+      <div class="premisa-row">
+        <div class="premisa-texto">"Caminar 30 minutos al día puede ayudar a controlar la presión arterial"</div>
+        <div class="opciones-vf">
+          <label class="btn-vf">
+            <input type="radio" name="p3" value="V" class="correcta"> VERDADERO
+          </label>
+          <label class="btn-vf">
+            <input type="radio" name="p3" value="F"> FALSO
+          </label>
+        </div>
+      </div>
+
+      <div class="premisa-row">
+        <div class="premisa-texto">"Las pausas activas solo benefician a quienes trabajan frente a una computadora."</div>
+        <div class="opciones-vf">
+          <label class="btn-vf">
+            <input type="radio" name="p4" value="V"> VERDADERO
+          </label>
+          <label class="btn-vf">
+            <input type="radio" name="p4" value="F" class="correcta"> FALSO
+          </label>
+        </div>
+      </div>
+
+      <div class="premisa-row">
+        <div class="premisa-texto">"Los snacks ultraprocesados son recomendables para mantener energía en la jornada laboral."</div>
+        <div class="opciones-vf">
+          <label class="btn-vf">
+            <input type="radio" name="p5" value="V"> VERDADERO
+          </label>
+          <label class="btn-vf">
+            <input type="radio" name="p5" value="F" class="correcta"> FALSO
+          </label>
+        </div>
+      </div>
+
+      <button class="btn-finalizar" onclick="evaluarVAR()">
+        🏁 Enviar Análisis del VAR
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <div class="modal-titulo">Análisis Finalizado</div>
+      <div class="modal-texto" id="mensaje">Procesando jugadas...</div>
+      <button class="btn-modal" onclick="continuar()">Siguiente Desafío</button>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const equipoGuardado = localStorage.getItem("equipoJugador");
+      if (equipoGuardado) {
+        document.getElementById("nombreEquipoDinamico").innerText = equipoGuardado;
+      }
+
+      const audio = document.getElementById("musicaFondo");
+      audio.volume = 0.6;
+      const musicaActiva = localStorage.getItem("musicaActiva");
+      const tiempoGuardado = localStorage.getItem("tiempoMusica");
+
+      if (musicaActiva === "true") {
+        if (tiempoGuardado) {
+          audio.currentTime = parseFloat(tiempoGuardado);
+        }
+        audio.play().catch(err => console.log("Audio en espera", err));
+      }
+
+      setInterval(() => {
+        localStorage.setItem("tiempoMusica", audio.currentTime);
+      }, 100);
+
+      setInterval(actualizarCronometro, 100);
+    }
+
+    function evaluarVAR() {
+      let aciertos = 0;
+      const totalPreguntas = 5;
+
+      const correctas = document.querySelectorAll(".correcta");
+      correctas.forEach(function(item) {
+        if (item.checked) {
+          aciertos++;
+        }
+      });
+
+      let puntosEstacion = aciertos * 100;
+      let totalAcumulado = parseInt(localStorage.getItem("puntaje")) || 0;
+      totalAcumulado += puntosEstacion;
+      localStorage.setItem("puntaje", totalAcumulado);
+
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("mensaje").innerHTML = 
+        "¡El réferi revisó los registros del VAR de manera exitosa!<br><br>" +
+        "Respuestas acertadas: <strong>" + aciertos + " / " + totalPreguntas + "</strong> (Goles)<br>" +
+        "Puntaje de esta estación: <strong>" + puntosEstacion + "</strong> puntos.<br>" +
+        "Puntaje acumulado total: <strong>" + totalAcumulado + "</strong> puntos.";
+    }
+
+    function continuar() {
+      window.location.href = "indicaciones5.html";
+    }
+
+    function actualizarCronometro() {
+      const inicio = localStorage.getItem("inicioTiempo");
+      if(!inicio) return;
+
+      const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
+
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "⏱️ " + minutos + ":" + segundos;
+    }
+  </script>
+</body>
+</html>

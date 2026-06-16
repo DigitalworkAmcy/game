@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundial de la Salud - Elige tu Equipo</title>
+  <title>BESAFE LA RIOJA - Elige tu Equipo</title>
 
   <style>
     *{
@@ -18,8 +18,9 @@
       display:flex;
       justify-content:center;
       align-items:center;
+      /* Fondo basado en el azul eléctrico vibrante, aplicando transparencia sobre la imagen base */
       background:
-      linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,41,59,0.9)),
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
       url('Imagen2.jpg');
       background-size:cover;
       background-position:center;
@@ -32,10 +33,12 @@
       max-width:90%;
       padding:35px 40px 40px 40px;
       border-radius:28px;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(14px);
-      border:1px solid rgba(255,255,255,0.15);
-      box-shadow:0 10px 40px rgba(0,0,0,0.45);
+      /* Cristal de alta definición */
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
       text-align:center;
       animation:entrada 1s ease;
     }
@@ -53,93 +56,51 @@
 
     h1{
       font-size:2rem;
-      margin-bottom:10px;
+      margin-bottom:25px; /* Ajustado el margen al no estar el saludo */
       color:#ffffff;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .jugador-saludo{
-      color:#93c5fd;
-      font-size:1.1rem;
-      margin-bottom:25px;
-      font-weight: 600;
-    }
-
     p{
-      color:#dbeafe;
+      color:#e0f4ff;
       margin-bottom:25px;
       font-size:1rem;
       line-height:1.5;
     }
 
-    /* Contenedor de la selección de equipos */
-    .equipos-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 30px;
+    /* Contenedor del Input de Texto Moderno */
+    .input-container {
+      position: relative;
+      margin-bottom: 35px;
+      width: 100%;
     }
 
-    /* Ocultar los inputs de radio reales */
-    .radio-equipo {
-      display: none;
-    }
-
-    /* Tarjetas de equipo customizadas */
-    .tarjeta-equipo {
-      padding: 20px;
+    .input-moderno {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.25);
       border-radius: 15px;
-      cursor: pointer;
+      outline: none;
       font-size: 1.1rem;
-      font-weight: bold;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: center;
       transition: all 0.3s ease;
-      border: 2px solid rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
     }
 
-    /* Estilo específico para el equipo Azul */
-    .tarjeta-azul {
-      background: rgba(37, 99, 235, 0.2);
-      color: #93c5fd;
-    }
-    .tarjeta-azul:hover {
-      background: rgba(37, 99, 235, 0.4);
-      border-color: #2563eb;
+    /* Efecto de foco tecnológico al escribir */
+    .input-moderno:focus {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #ffffff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
-    /* Estilo específico para el equipo Rojo */
-    .tarjeta-rojo {
-      background: rgba(220, 38, 38, 0.2);
-      color: #fca5a5;
-    }
-    .tarjeta-rojo:hover {
-      background: rgba(220, 38, 38, 0.4);
-      border-color: #dc2626;
-    }
-
-    /* Comportamiento cuando están seleccionados */
-    .radio-equipo:checked + .tarjeta-azul {
-      background: linear-gradient(135deg, #1d4ed8, #2563eb);
-      border-color: #93c5fd;
-      color: white;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
-    }
-
-    .radio-equipo:checked + .tarjeta-rojo {
-      background: linear-gradient(135deg, #b91c1c, #dc2626);
-      border-color: #fca5a5;
-      color: white;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(220, 38, 38, 0.6);
-    }
-
-    .icono-equipo {
-      font-size: 2rem;
+    /* Estilo del placeholder para que combine */
+    .input-moderno::placeholder {
+      color: rgba(224, 244, 255, 0.6);
+      font-weight: 400;
     }
 
     button{
@@ -150,15 +111,17 @@
       font-size:1rem;
       font-weight:bold;
       cursor:pointer;
-      background:linear-gradient(135deg,#10b981,#059669);
-      color:white;
-      transition:0.3s;
-      box-shadow:0 5px 20px rgba(16,185,129,0.4);
+      /* Botón blanco sólido que resalta con el fondo */
+      background: white;
+      color: #007bbd;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
 
     button:hover{
       transform:translateY(-3px);
-      box-shadow:0 8px 25px rgba(16,185,129,0.6);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
     }
 
     .footer{
@@ -174,26 +137,11 @@
 
   <div class="container">
     <h1>Selección de Equipo</h1>
-    <div class="jugador-saludo" id="nombreSaludo"></div>
 
-    <p>Elegí la camiseta de tu equipo para la competición corporativa:</p>
+    <p>INGRESA EL NOMBRE DE TU EQUIPO:</p>
 
-    <div class="equipos-container">
-      <label>
-        <input type="radio" name="equipo" value="Azul" class="radio-equipo" id="eqAzul">
-        <div class="tarjeta-equipo tarjeta-azul">
-          <span class="icono-equipo">🔵</span>
-          <span>EQUIPO AZUL</span>
-        </div>
-      </label>
-
-      <label>
-        <input type="radio" name="equipo" value="Rojo" class="radio-equipo" id="eqRojo">
-        <div class="tarjeta-equipo tarjeta-rojo">
-          <span class="icono-equipo">🔴</span>
-          <span>EQUIPO ROJO</span>
-        </div>
-      </label>
+    <div class="input-container">
+      <input type="text" id="nombreEquipo" class="input-moderno" placeholder="Ej: Los TECOTEAM" max-length="30" autocomplete="off">
     </div>
 
     <button onclick="comenzarActividad()">
@@ -201,21 +149,13 @@
     </button>
 
     <div class="footer">
-      Mundial de la Salud © 2026
+      BESAFE LA RIOJA © 2026
     </div>
   </div>
 
   <script>
     window.onload = function() {
-      // 1. Manejo del Saludo
-      const jugador = localStorage.getItem("jugador");
-      if(jugador) {
-        document.getElementById("nombreSaludo").innerText = "¡Hola, " + jugador + "!";
-      } else {
-        document.getElementById("nombreSaludo").innerText = "¡Hola, Participante!";
-      }
-
-      // 2. Manejo y Sincronización del Audio
+      // 1. Manejo y Sincronización del Audio
       const audio = document.getElementById("musicaFondo");
       audio.volume = 0.6;
       
@@ -226,34 +166,25 @@
         if (tiempoGuardado) {
           audio.currentTime = parseFloat(tiempoGuardado);
         }
-        // Intentamos reproducir. Como el usuario ya hizo clic en la página anterior,
-        // el navegador suele permitir la continuidad de reproducción en el mismo dominio.
         audio.play().catch(err => console.log("Reinicio de audio pausado por interacción:", err));
       }
 
-      // Seguimos registrando el tiempo en esta pantalla por si pasa a estacion1.html
       setInterval(() => {
         localStorage.setItem("tiempoMusica", audio.currentTime);
       }, 100);
     }
 
     function comenzarActividad(){
-      const opcionesEquipo = document.getElementsByName("equipo");
-      let equipoSeleccionado = "";
+      const equipoInput = document.getElementById("nombreEquipo").value.trim();
 
-      for(let i = 0; i < opcionesEquipo.length; i++){
-        if(opcionesEquipo[i].checked){
-          equipoSeleccionado = opcionesEquipo[i].value;
-          break;
-        }
-      }
-
-      if(equipoSeleccionado === ""){
-        alert("Por favor, selecciona un equipo para representar.");
+      // Validación para asegurarse de que escriban algo
+      if(equipoInput === ""){
+        alert("Por favor, ingresá un nombre para tu equipo antes de continuar.");
         return;
       }
 
-      localStorage.setItem("equipoJugador", equipoSeleccionado);
+      // Guardamos el nombre ingresado por el usuario
+      localStorage.setItem("equipoJugador", equipoInput);
       localStorage.setItem("puntaje", 0);
       localStorage.setItem("inicioTiempo", Date.now());
 

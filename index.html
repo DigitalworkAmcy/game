@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundial de la Salud - Inicio</title>
+  <title>BESAFE LA RIOJA - Inicio</title>
 
   <style>
     *{
@@ -19,12 +19,12 @@
       justify-content:center;
       align-items:center;
 
+      /* Fondo basado en el azul eléctrico de tu imagen */
       background:
-        radial-gradient(circle at 20% 30%, rgba(37,99,235,0.25), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(59,130,246,0.25), transparent 40%),
-        linear-gradient(135deg, #0f172a, #1e293b);
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15), transparent 50%),
+        linear-gradient(135deg, #007bbd, #00b4ec);
 
-      color:white;
+      color: white;
     }
 
     .container{
@@ -32,10 +32,12 @@
       max-width:90%;
       padding:35px 40px;
       border-radius:28px;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,0.15);
-      box-shadow:0 10px 40px rgba(0,0,0,0.45);
+      /* Efecto cristal frosted moderno */
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
       text-align:center;
     }
 
@@ -44,14 +46,33 @@
       margin-bottom: 15px;
     }
 
+    /* Animación bandera argentina para el título */
     h1{
-      font-size:2.2rem;
-      margin-bottom:15px;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      
+      /* Creamos el degradado Celeste - Blanco - Celeste */
+      background: linear-gradient(to right, #00b4ec, #ffffff, #00b4ec);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      
+      /* Animación fluida infinita */
+      animation: ondearBandera 4s linear infinite;
+      filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3));
+    }
+
+    @keyframes ondearBandera {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
 
     p{
       margin-bottom:30px;
-      color:#dbeafe;
+      color: #e0f4ff; /* Blanco celeste muy suave */
+      font-weight: 500;
     }
 
     button{
@@ -62,13 +83,17 @@
       font-size:1rem;
       font-weight:bold;
       cursor:pointer;
-      background:linear-gradient(135deg,#2563eb,#3b82f6);
-      color:white;
-      transition:0.3s;
+      /* Botón blanco para contrastar con el fondo */
+      background: white;
+      color: #007bbd;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      transition: 0.3s ease;
     }
 
     button:hover{
-      transform:translateY(-2px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
     }
   </style>
 </head>
@@ -79,7 +104,7 @@
   <div class="container">
     <img src="Imagen2.jpg" class="logo-actividad">
 
-    <h1>Mundial de la Salud</h1>
+    <h1>BESAFE LA RIOJA</h1>
 
     <p>
       Poné a prueba tus conocimientos médicos en esta trivia interactiva.
@@ -96,18 +121,15 @@
       audio.volume = 0.6;
 
       audio.play().then(() => {
-        // Indicamos que la música ya debe estar activa para las siguientes páginas
         localStorage.setItem("musicaActiva", "true");
       }).catch(() => {
         console.log("El navegador bloqueó el autoplay");
       });
 
-      // Guardamos constantemente el tiempo del audio antes de abandonar la página
       const interval = setInterval(() => {
         localStorage.setItem("tiempoMusica", audio.currentTime);
       }, 100);
 
-      // Espera para que se escuche la música antes de cambiar de página
       setTimeout(() => {
         clearInterval(interval);
         window.location.href = "equipo.html";

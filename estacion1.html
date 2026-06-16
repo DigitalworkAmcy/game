@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundial de la Salud - Estación 1</title>
+  <title>BESAFE LA RIOJA - Estación 1</title>
 
   <style>
     * {
@@ -19,161 +19,116 @@
       justify-content: center;
       align-items: center;
       background:
-        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.15), transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.15), transparent 40%),
-        linear-gradient(135deg, #0f172a, #131f38);
-      color: white;
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
       overflow: hidden;
+      color: white;
     }
 
     .escape-container {
-      width: 750px;
-      max-width: 95%;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 25px;
-      padding: 30px;
+      width: 400px;
+      max-width: 90%;
+      padding: 35px 30px;
       border-radius: 28px;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      text-align: center;
+      animation: entrada 0.8s ease-out;
     }
 
-    /* Sección de los Enigmas/Fórmulas */
-    .panel-enigmas {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    @keyframes entrada {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .header-estacion {
-      margin-bottom: 20px;
-    }
-
+    /* Título Dinámico y Atractivo */
     .header-estacion h1 {
       font-size: 1.8rem;
-      color: #10b981;
+      font-weight: 800;
+      color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .header-estacion p {
-      color: #94a3b8;
+      color: #e0f4ff;
       font-size: 0.95rem;
-      margin-top: 5px;
+      margin-bottom: 25px;
+      font-weight: 500;
     }
 
-    .tarjeta-formula {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-left: 4px solid #3b82f6;
-      padding: 15px 20px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-
-    .tarjeta-formula.segunda {
-      border-left-color: #a855f7;
-    }
-
-    .tarjeta-formula h3 {
-      font-size: 1rem;
-      color: #cbd5e1;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .formula-matematica {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.2rem;
-      color: #38bdf8;
-      margin: 10px 0;
-      letter-spacing: 1px;
-    }
-
-    .pista-texto {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      font-style: italic;
-    }
-
-    /* Sección del Teclado */
     .panel-teclado {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 20px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
     }
 
     .pantalla-codigo {
       width: 100%;
-      background: #020617;
-      border: 2px solid #1e293b;
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 15px;
       padding: 15px;
       text-align: center;
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-family: 'Courier New', Courier, monospace;
-      color: #10b981;
+      color: #ffffff;
       letter-spacing: 10px;
-      margin-bottom: 20px;
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
-      text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+      margin-bottom: 25px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
     }
 
     .pantalla-codigo.error {
-      color: #ef4444;
-      border-color: #ef4444;
-      text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+      color: #ff4a4a;
+      border-color: #ff4a4a;
+      text-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+      background: rgba(239, 68, 68, 0.15);
     }
 
     .grid-teclado {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 12px;
       width: 100%;
     }
 
     .btn-num {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 15px;
-      font-size: 1.25rem;
+      padding: 18px;
+      font-size: 1.4rem;
       font-weight: bold;
-      border-radius: 12px;
+      border-radius: 15px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .btn-num:hover {
-      background: #1e293b;
-      border-color: #3b82f6;
-      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
     }
 
     .btn-clear {
-      background: linear-gradient(135deg, #7f1d1d, #450a0a);
-      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.25);
+      color: #ffd6d6;
+      border-color: rgba(239, 68, 68, 0.3);
     }
-    .btn-clear:hover { background: #991b1b; border-color: #ef4444;}
+    .btn-clear:hover { background: rgba(239, 68, 68, 0.4); }
 
     .btn-enter {
-      background: linear-gradient(135deg, #064e3b, #022c22);
-      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.25);
+      color: #d1fae5;
+      border-color: rgba(16, 185, 129, 0.3);
     }
-    .btn-enter:hover { background: #065f46; border-color: #10b981;}
+    .btn-enter:hover { background: rgba(16, 185, 129, 0.4); }
 
     /* MODAL EMERGENTE PERSONALIZADO */
     .modal-overlay {
@@ -182,8 +137,8 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 40, 70, 0.5);
+      backdrop-filter: blur(10px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -199,12 +154,14 @@
     }
 
     .modal-content {
-      width: 380px;
+      width: 400px;
+      max-width: 90%;
       padding: 35px 30px;
       border-radius: 24px;
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.4);
       text-align: center;
       transform: scale(0.8);
       transition: transform 0.3s ease;
@@ -228,10 +185,17 @@
     }
 
     .modal-texto {
-      color: #cbd5e1;
+      color: #e0f4ff;
       font-size: 1rem;
       margin-bottom: 25px;
       line-height: 1.4;
+    }
+
+    /* Contenedor de botones en fila o columna */
+    .modal-buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .modal-btn {
@@ -242,35 +206,34 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    /* Estilos del Modal de Error */
+    .modal-content.error-style .modal-titulo { color: #ffffff; }
+    
+    .btn-intentar {
+      background: white;
+      color: #007bbd;
+    }
+    .btn-intentar:hover {
+      background: #f0f9ff;
+    }
+
+    .btn-consigna {
+      background: rgba(255, 255, 255, 0.15);
       color: white;
-      transition: 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .btn-consigna:hover {
+      background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Variantes dinámicas para el diseño del modal */
-    .modal-content.error-style {
-      border-color: rgba(239, 68, 68, 0.4);
-    }
-    .modal-content.error-style .modal-titulo { color: #ef4444; }
-    .modal-content.error-style .modal-btn { 
-      background: linear-gradient(135deg, #ef4444, #b91c1c); 
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-    }
-
-    .modal-content.success-style {
-      border-color: rgba(16, 185, 129, 0.4);
-    }
-    .modal-content.success-style .modal-titulo { color: #10b981; }
-    .modal-content.success-style .modal-btn { 
-      background: linear-gradient(135deg, #10b981, #059669); 
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    }
-
-    @media (max-width: 700px) {
-      .escape-container {
-        grid-template-columns: 1fr;
-        height: 90vh;
-        overflow-y: auto;
-      }
+    /* Estilos del Modal de Éxito */
+    .modal-content.success-style .modal-titulo { color: #ffffff; }
+    .modal-content.success-style .btn-exito {
+      background: white;
+      color: #10b981;
     }
   </style>
 </head>
@@ -279,30 +242,9 @@
   <audio id="musicaFondo" src="1.mp3" loop></audio>
 
   <div class="escape-container">
-    
-    <div class="panel-enigmas">
-      <div class="header-estacion">
-        <h1>Estación 1: El Bloqueo</h1>
-        <p>Calculá las fórmulas médicas para descifrar el código de anulación de 2 dígitos.</p>
-      </div>
-
-      <div class="tarjeta-formula">
-        <h3>🔍 Enigma I: Primer Dígito</h3>
-        <p class="pista-texto">Despejá la incógnita de la tasa de accidentabilidad básica corporativa:</p>
-        <div class="formula-matematica">
-          Dígito 1 = (24 / 6) - 3
-        </div>
-        <p class="pista-texto">Nota: El resultado final corresponde al primer casillero.</p>
-      </div>
-
-      <div class="tarjeta-formula segunda">
-        <h3>🔍 Enigma II: Segundo Dígito</h3>
-        <p class="pista-texto">Auditoría de insumos médicos. Resolvé la prioridad del operador:</p>
-        <div class="formula-matematica">
-          Dígito 2 = 3 + 2 * 2
-        </div>
-        <p class="pista-texto">Nota: Recordá separar en términos antes de sumar.</p>
-      </div>
+    <div class="header-estacion">
+      <h1>🎛️ Consola de Desbloqueo</h1>
+      <p>Ingresá el código numérico de 2 dígitos</p>
     </div>
 
     <div class="panel-teclado">
@@ -323,22 +265,22 @@
         <button class="btn-num btn-enter" onclick="validarCodigo()">✔</button>
       </div>
     </div>
-
   </div>
 
   <div class="modal-overlay" id="modalAlert">
     <div class="modal-content" id="modalCard">
-      <div class="modal-icono" id="modalIcono">❌</div>
-      <div class="modal-titulo" id="modalTitulo">Error</div>
-      <div class="modal-texto" id="modalTexto">Código incorrecto. Inténtalo de nuevo.</div>
-      <button class="modal-btn" id="modalBtn" onclick="cerrarOMudar()">Volver a intentar</button>
+      <div class="modal-icono" id="modalIcono">⚠️</div>
+      <div class="modal-titulo" id="modalTitulo">Código Incorrecto</div>
+      <div class="modal-texto" id="modalTexto">Las coordenadas introducidas no son válidas.</div>
+      
+      <div class="modal-buttons-container" id="modalButtonsBox">
+        </div>
     </div>
   </div>
 
   <script>
-    const CODIGO_CORRECTO = "11"; 
+    const CODIGO_CORRECTO = "14"; 
     let codigoIngresado = "";
-    let esCorrecto = false; // Nos ayuda a saber qué acción hace el botón del cartel
 
     window.onload = function() {
       const audio = document.getElementById("musicaFondo");
@@ -375,48 +317,53 @@
       document.getElementById("displayCodigo").classList.remove("error");
     }
 
-    // NUEVA FUNCIÓN: Muestra el cartel adaptando textos, iconos y estilos CSS dinámicamente
     function mostrarMensaje(tipo) {
       const overlay = document.getElementById("modalAlert");
       const card = document.getElementById("modalCard");
       const icono = document.getElementById("modalIcono");
       const titulo = document.getElementById("modalTitulo");
       const texto = document.getElementById("modalTexto");
-      const btn = document.getElementById("modalBtn");
+      const buttonsBox = document.getElementById("modalButtonsBox");
 
       card.classList.remove("error-style", "success-style");
+      buttonsBox.innerHTML = ""; // Limpiar botones anteriores
 
       if (tipo === "error") {
-        esCorrecto = false;
         card.classList.add("error-style");
         icono.innerText = "⚠️";
-        titulo.innerText = "Error";
-        texto.innerText = "Las coordenadas introducidas no son válidas. Las defensas siguen activas.";
-        btn.innerText = "Volver a intentar";
+        titulo.innerText = "Error de Código";
+        texto.innerText = "El código ingresado es incorrecto. ¿Qué deseas hacer?";
+        
+        // Agregar los dos botones requeridos
+        buttonsBox.innerHTML = `
+          <button class="modal-btn btn-intentar" onclick="reintentarCodigo()">Volver a intentar</button>
+          <button class="modal-btn btn-consigna" onclick="irAConsigna()">Volver a ver consigna</button>
+        `;
       } else if (tipo === "exito") {
-        esCorrecto = true;
         card.classList.add("success-style");
         icono.innerText = "🔓";
-        titulo.innerText = "¡Acertaste!";
-        texto.innerText = "Código de anulación correcto. Se ha desbloqueado la información de la estación.";
-        btn.innerText = "Continuar a Indicaciones";
+        titulo.innerText = "¡Desbloqueado!";
+        texto.innerText = "Código de anulación correcto. El sistema se ha estabilizado con éxito.";
+        
+        buttonsBox.innerHTML = `
+          <button class="modal-btn btn-exito" onclick="continuarJuego()">Continuar</button>
+        `;
       }
 
       overlay.classList.add("active");
     }
 
-    // Maneja la acción del botón del cartel emergente
-    function cerrarOMudar() {
-      const overlay = document.getElementById("modalAlert");
-      overlay.classList.remove("active");
+    function reintentarCodigo() {
+      document.getElementById("modalAlert").classList.remove("active");
+      borrarPantalla();
+    }
 
-      if (esCorrecto) {
-        // Si acertó, lo redirige directo a la página solicitada
-        window.location.href = "j1.html";
-      } else {
-        // Si falló, limpia la pantalla del teclado para intentar otra vez
-        borrarPantalla();
-      }
+    function irAConsigna() {
+      window.location.href = "enunciado1.html";
+    }
+
+    function continuarJuego() {
+      window.location.href = "indicaciones2.html";
     }
 
     function validarCodigo() {
@@ -425,7 +372,6 @@
       if (codigoIngresado === CODIGO_CORRECTO) {
         let puntajeActual = parseInt(localStorage.getItem("puntaje") || "0");
         localStorage.setItem("puntaje", puntajeActual + 100);
-
         mostrarMensaje("exito"); 
       } else {
         display.classList.add("error");

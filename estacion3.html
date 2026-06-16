@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego - Pausas Activas</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .jugador {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #e0f4ff;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .cronometro {
+      text-align: center;
+      font-size: 1.4rem;
+      margin-bottom: 35px;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .subtitulo {
+      text-align: center;
+      margin-bottom: 35px;
+      color: #e0f4ff;
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+
+    .bloque {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .bloque h2 {
+      margin-bottom: 20px;
+      color: #ffffff;
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 12px;
+    }
+
+    .opciones-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .tarjeta-opcion {
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 18px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .tarjeta-opcion:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .texto-opcion {
+      color: #fff;
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+
+    .tarjeta-opcion input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .tarjeta-opcion::before {
+      content: "";
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.2);
+      margin-right: 15px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .tarjeta-opcion:hover::before {
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .tarjeta-opcion:has(input[type="radio"]:checked)::before {
+      background-color: #ffffff;
+      border-color: #ffffff;
+      content: "✓";
+      color: #007bbd;
+      font-size: 15px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tarjeta-opcion:has(input[type="radio"]:checked) {
+      border-color: rgba(255, 255, 255, 0.6);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .acciones {
+      margin-top: 35px;
+      text-align: center;
+    }
+
+    button.btn-enviar {
+      padding: 18px 50px;
+      border: none;
+      border-radius: 15px;
+      background: white;
+      color: #007bbd;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      letter-spacing: 0.5px;
+    }
+
+    button.btn-enviar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 50, 100, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-contenido {
+      width: 90%;
+      max-width: 580px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #0f172a;
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .modal h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #007bbd;
+    }
+
+    .modal p {
+      font-size: 1.15rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #334155;
+      text-align: left;
+      background: rgba(0, 123, 189, 0.05);
+      padding: 22px;
+      border-radius: 15px;
+      border: 1px solid rgba(0, 123, 189, 0.1);
+    }
+
+    .modal button {
+      padding: 16px 40px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #007bbd, #00b4ec);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 123, 189, 0.3);
+      transition: 0.3s;
+    }
+
+    .modal button:hover {
+      background: linear-gradient(135deg, #00669e, #00a2d4);
+      box-shadow: 0 6px 20px rgba(0, 123, 189, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Quiz Oral Rápido: Pausas Activas</h1>
+
+    <div class="jugador" id="jugador"></div>
+
+    <div class="cronometro" id="cronometro">
+      Tiempo: 00:00
+    </div>
+
+    <div class="subtitulo">
+      Respondé las siguientes preguntas seleccionando la opción correcta.
+    </div>
+
+    <div class="bloque">
+      <h2>1. ¿Cada cuánto conviene hacer pausas activas?</h2>
+      <div class="opciones-stack">
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p1" class="incorrecta">
+          <span class="texto-opcion">A) Sólo cuando me duele algo</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p1" class="correcta">
+          <span class="texto-opcion">B) Cada una o dos horas</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p1" class="incorrecta">
+          <span class="texto-opcion">C) 1 vez por día</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="bloque">
+      <h2>2. Nombrar una forma realista de incluir pausas activas en tu día:</h2>
+      <div class="opciones-stack">
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p2" class="incorrecta">
+          <span class="texto-opcion">A) Cuando termino un mail me levanto</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p2" class="correcta">
+          <span class="texto-opcion">B) Entre reuniones</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p2" class="incorrecta">
+          <span class="texto-opcion">C) Al cargar agua o café</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="bloque">
+      <h2>3. ¿Cuál es un beneficio de hacer pausas activas?</h2>
+      <div class="opciones-stack">
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p3" class="incorrecta">
+          <span class="texto-opcion">A) Aumentar el cansancio</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p3" class="correcta">
+          <span class="texto-opcion">B) Mejorar la concentración y reducir tensiones</span>
+        </label>
+        <label class="tarjeta-opcion">
+          <input type="radio" name="p3" class="incorrecta">
+          <span class="texto-opcion">C) Perder tiempo de trabajo</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <button class="btn-enviar" onclick="evaluar()">
+        ENVIAR RESPUESTAS
+      </button>
+    </div>
+
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-contenido">
+      <h2>Resultado del Desafío</h2>
+      <p id="mensaje"></p>
+      <button onclick="continuar()">
+        SIGUIENTE DESAFÍO
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const nombre = localStorage.getItem("jugador");
+    if(nombre){
+      document.getElementById("jugador").innerHTML =
+      "Jugador: <strong>" + nombre + "</strong>";
+    }
+
+    if(localStorage.getItem("puntaje") === null){
+      localStorage.setItem("puntaje", 0);
+    }
+
+    function evaluar(){
+      let aciertos = 0;
+
+      const correctas = document.querySelectorAll(".correcta");
+      correctas.forEach(function(item){
+        if(item.checked){
+          aciertos++;
+        }
+      });
+
+      let totalPrevio = parseInt(localStorage.getItem("puntaje")) || 0;
+      let nuevoTotal = totalPrevio + (aciertos * 100); 
+      localStorage.setItem("puntaje", nuevoTotal);
+
+      let enunciadoPuntaje = "";
+      switch (aciertos) {
+        case 3:
+          enunciadoPuntaje = "<strong>🏆 ¡Excelente!</strong><br>¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés identificar opciones que ayudan a cuidar tu salud y mantener una alimentación equilibrada. ¡Seguí así!";
+          break;
+        case 2:
+          enunciadoPuntaje = "<strong>🍏 2 puntos – ¡Podés mejorar!</strong><br>Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas más nutritivas y seguir aprendiendo sobre alimentación saludable.";
+          break;
+        case 1:
+          enunciadoPuntaje = "<strong>🚦 1 punto – ¡Es momento de revisar tus elecciones!</strong><br>La mayoría de las opciones elegidas no fueron las más saludables. Incorporar más frutas, verduras, legumbres y agua puede ayudarte a mejorar tu alimentación.";
+          break;
+        case 0:
+        default:
+          enunciadoPuntaje = "<strong>🩺 0 puntos – ¡Desafío saludable!</strong><br>Tus elecciones no fueron las más beneficiosas para la salud. Una alimentación equilibrada es fundamental para prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico.";
+          break;
+      }
+
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("mensaje").innerHTML =
+      enunciadoPuntaje + "<br><br>" +
+      "Respuestas acertadas: <strong>" + aciertos + " / 3</strong><br>" +
+      "Puntaje acumulado total: <strong>" + nuevoTotal + "</strong>";
+    }
+
+    function avanzarEstacion(){
+      window.location.href = "indicaciones4.html";
+    }
+
+    function continuar(){
+      avanzarEstacion();
+    }
+
+    function actualizarCronometro(){
+      const inicio = localStorage.getItem("inicioTiempo");
+      if(!inicio) return;
+
+      const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
+
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
+
+      document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
+    }
+
+    actualizarCronometro();
+    setInterval(actualizarCronometro, 1000);
+  </script>
+
+</body>
+</html>

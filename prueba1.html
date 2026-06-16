@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego 1 - Alimentación Saludable</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      /* Fondo ajustado al azul eléctrico vibrante con la imagen base de fondo */
+      background:
+      linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+      url('Imagen2.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      /* Cristal de alta definición unificado */
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 50, 100, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .info-header h1 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .bienvenida-equipo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e0f4ff;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .bienvenida-equipo span {
+      color: #ffffff;
+      font-weight: 800;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    .cronometro {
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* Columnas de Arrastre */
+    .game-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+    }
+
+    .panel-alimentos {
+      background: rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .panel-alimentos h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 8px;
+    }
+
+    .alimentos-pool {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 400px;
+    }
+
+    .card-alimento {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+      cursor: grab;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .card-alimento:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .panel-categorias {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .categoria-col {
+      background: rgba(15, 23, 42, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s;
+    }
+
+    .categoria-col.drag-over {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #ffffff;
+    }
+
+    .categoria-col h3 {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .cat-saludable h3 { background: rgba(16, 185, 129, 0.25); color: #a7f3d0; }
+    .cat-moderado h3 { background: rgba(245, 158, 11, 0.25); color: #fde68a; }
+    .cat-nocivo h3 { background: rgba(239, 68, 68, 0.25); color: #fecaca; }
+
+    .drop-zone {
+      flex: 1;
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 350px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo del Botón ajustado a las páginas anteriores */
+    .btn-finalizar {
+      grid-column: span 2;
+      width: 100%;
+      padding: 18px;
+      background: white;
+      color: #007bbd;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .btn-finalizar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
+      background: #f0f9ff;
+    }
+
+    /* MODAL DE RESULTADOS */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 40, 70, 0.5);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 450px;
+      max-width: 90%;
+      padding: 40px 35px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.4);
+      text-align: center;
+    }
+
+    .modal-icono { font-size: 3.5rem; margin-bottom: 15px; }
+    .modal-titulo { font-size: 1.8rem; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
+    .modal-texto { color: #e0f4ff; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.5; }
+
+    .btn-modal {
+      width: 100%; padding: 16px; border: none; border-radius: 12px;
+      font-size: 1.1rem; font-weight: bold; cursor: pointer;
+      background: white; color: #007bbd; transition: 0.2s;
+    }
+    .btn-modal:hover { background: #f0f9ff; transform: scale(1.02); }
+  </style>
+</head>
+<body>
+
+  <audio id="musicaFondo" src="1.mp3" loop></audio>
+
+  <div class="container">
+    <header>
+      <div class="info-header">
+        <h1>🍏 Clasificación de Nutrientes</h1>
+        <div class="bienvenida-equipo" id="cartelBienvenida" style="margin-top: 8px; display: inline-block;">
+          Equipo: <span id="nombreEquipoDinamico">...</span>
+        </div>
+      </div>
+      <div class="cronometro" id="timer">⏱️ 00:00</div>
+    </header>
+
+    <div class="game-layout">
+      <div class="panel-alimentos">
+        <h3>Alimentos Disponibles</h3>
+        <div class="alimentos-pool" id="pool">
+          <div class="card-alimento" draggable="true" id="a1" data-val="saludable">🥦 Brócoli y Espinacas</div>
+          <div class="card-alimento" draggable="true" id="a2" data-val="nocivo">🍩 Facturas y Donas</div>
+          <div class="card-alimento" draggable="true" id="a3" data-val="moderado">🥖 Pan Integral</div>
+          <div class="card-alimento" draggable="true" id="a4" data-val="saludable">🍎 Manzana y Pera</div>
+          <div class="card-alimento" draggable="true" id="a5" data-val="nocivo">🍔 Hamburguesa Fast Food</div>
+          <div class="card-alimento" draggable="true" id="a6" data-val="moderado">🧀 Queso Por salut</div>
+          <div class="card-alimento" draggable="true" id="a7" data-val="nocivo">🥤 Gaseosa Azucarada</div>
+        </div>
+      </div>
+
+      <div class="panel-categorias">
+        <div class="categoria-col cat-saludable" data-cat="saludable">
+          <h3>Saludable / Protector</h3>
+          <div class="drop-zone" id="z-saludable"></div>
+        </div>
+
+        <div class="categoria-col cat-moderado" data-cat="moderado">
+          <h3>Consumo Moderado</h3>
+          <div class="drop-zone" id="z-moderado"></div>
+        </div>
+
+        <div class="categoria-col cat-nocivo" data-cat="nocivo">
+          <h3>Nocivo / Riesgo</h3>
+          <div class="drop-zone" id="z-nocivo"></div>
+        </div>
+      </div>
+
+      <button class="btn-finalizar" onclick="evaluarJuego()">
+        🏁 Evaluar y Registrar Dieta
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <div class="modal-icono">📊</div>
+      <div class="modal-titulo">Balance Evaluado</div>
+      <div class="modal-texto" id="mensaje">Procesando registros...</div>
+      <button class="btn-modal" onclick="continuar()">Continuar Desafío</button>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      // Nombre de equipo dinámico
+      const equipoGuardado = localStorage.getItem("equipoJugador");
+      if (equipoGuardado) {
+        document.getElementById("nombreEquipoDinamico").innerText = equipoGuardado;
+      }
+
+      // Audio continuo
+      const audio = document.getElementById("musicaFondo");
+      audio.volume = 0.6;
+      const musicaActiva = localStorage.getItem("musicaActiva");
+      const tiempoGuardado = localStorage.getItem("tiempoMusica");
+
+      if (musicaActiva === "true") {
+        if (tiempoGuardado) {
+          audio.currentTime = parseFloat(tiempoGuardado);
+        }
+        audio.play().catch(err => console.log("Audio en espera", err));
+      }
+
+      setInterval(() => {
+        localStorage.setItem("tiempoMusica", audio.currentTime);
+      }, 100);
+
+      // Cronómetro
+      setInterval(actualizarCronometro, 100);
+      initDragAndDrop();
+    }
+
+    // LÓGICA DRAG & DROP
+    function initDragAndDrop() {
+      const cards = document.querySelectorAll('.card-alimento');
+      const zones = document.querySelectorAll('.drop-zone');
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', card.id);
+        });
+      });
+
+      zones.forEach(zone => {
+        const col = zone.closest('.categoria-col');
+        
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          col.classList.add('drag-over');
+        });
+
+        zone.addEventListener('dragleave', () => {
+          col.classList.remove('drag-over');
+        });
+
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          col.classList.remove('drag-over');
+          const id = e.dataTransfer.getData('text/plain');
+          const card = document.getElementById(id);
+          if(card) {
+            zone.appendChild(card);
+          }
+        });
+      });
+    }
+
+    // EVALUACIÓN DE RESPUESTAS
+    function evaluarJuego() {
+      const zones = document.querySelectorAll('.drop-zone');
+      let puntos = 0;
+
+      zones.forEach(zone => {
+        const catEsperada = zone.closest('.categoria-col').getAttribute('data-cat');
+        const items = zone.querySelectorAll('.card-alimento');
+
+        items.forEach(item => {
+          const valReal = item.getAttribute('data-val');
+          if (valReal === catEsperada) {
+            puntos += 100;
+          } else {
+            puntos -= 50;
+          }
+        });
+      });
+
+      if(puntos < 0) puntos = 0;
+
+      let total = parseInt(localStorage.getItem("puntaje")) || 0;
+      total += puntos;
+      localStorage.setItem("puntaje", total);
+
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("mensaje").innerHTML = 
+        "Obtuviste <strong>" + puntos + "</strong> puntos en esta clasificación nutricional.<br><br>" +
+        "Puntaje acumulado: <strong>" + total + "</strong> puntos.";
+    }
+
+    // Redirección exacta hacia indicaciones3.html
+    function continuar() {
+      window.location.href = "indicaciones3.html";
+    }
+
+    function actualizarCronometro() {
+      const inicio = localStorage.getItem("inicioTiempo");
+      if(!inicio) return;
+
+      const ahora = Date.now();
+      const transcurrido = Math.floor((ahora - inicio) / 1000);
+
+      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
+      const segundos = (transcurrido % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "⏱️ " + minutos + ":" + segundos;
+    }
+  </script>
+</body>
+</html>
