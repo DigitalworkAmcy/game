@@ -24,7 +24,6 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-      overflow-x: hidden;
       color: white;
     }
 
@@ -189,6 +188,42 @@
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
     }
+
+    /* ==========================================
+       MEDIA QUERIES PARA ADAPTACIÓN EN MÓVILES
+       ========================================== */
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px 15px; /* Reducimos el colchón lateral para dar espacio al contenido */
+      }
+
+      h1 {
+        font-size: 1.5rem; /* Título principal más compacto */
+        letter-spacing: 1px;
+      }
+
+      .modulo-box {
+        padding: 15px 15px; /* Paneles internos ligeramente más delgados */
+      }
+
+      .modulo-title {
+        font-size: 1.1rem; /* Ajuste sutil de títulos internos */
+      }
+
+      .clinica-info li {
+        font-size: 0.95rem; /* Texto de la lista un poco más pequeño para evitar roturas feas */
+        padding: 6px 10px;
+      }
+
+      .formula-box {
+        font-size: 0.95rem; /* Evita que la ecuación larga desborde la caja */
+        padding: 12px;
+      }
+
+      .resultado-final {
+        font-size: 0.95rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -242,11 +277,9 @@
         
         <div class="formula-box">
           <p>Índice Tabáquico = (Cigarrillos por día × Años de fumador) / 20</p>
-          <div class="formula-calc">(20 × 10) / 20 = 10</div>
+           <div class="resultado-final">
+          📊 Si el Índice Tabáquico detectado es 57 ——— TU PRIMER DÍGITO del código de desbloqueo es 5
         </div>
-
-        <div class="resultado-final">
-          📊 Índice Tabáquico detectado: 10 ——— PRIMER DÍGITO del código de desbloqueo: 1
         </div>
       </div>
     </div>
