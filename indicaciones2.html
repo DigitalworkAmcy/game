@@ -14,7 +14,8 @@
     }
 
     body {
-      height: 100vh;
+      /* Cambio clave: min-height en lugar de height fijo, para permitir scroll si es necesario */
+      min-height: 100vh; 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,13 +24,14 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-      overflow: hidden;
+      /* Se quita overflow: hidden para evitar que se corte el botón en pantallas chicas */
       color: white;
+      padding: 20px 10px; /* Margen de seguridad para que no pegue en los bordes de la pantalla */
     }
 
     .container {
       width: 580px;
-      max-width: 92%;
+      max-width: 100%; /* Aprovecha el máximo del ancho disponible */
       padding: 40px;
       border-radius: 28px;
       background: rgba(255, 255, 255, 0.12);
@@ -117,13 +119,14 @@
 
     .sub-info {
       display: flex;
-      justify-content: space-between;
+      justify-content: center; /* Centrado para mobile */
       gap: 15px;
       margin-bottom: 35px;
     }
 
     .info-item {
       flex: 1;
+      max-width: 280px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 12px;
@@ -146,12 +149,54 @@
       transition: 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       letter-spacing: 0.5px;
+      /* Evita el zoom automático molesto en algunos navegadores de iOS al pulsar botones */
+      -webkit-tap-highlight-color: transparent; 
     }
 
-    button:hover {
-      transform: translateY(-3px);
+    button:hover, button:active {
+      transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
+    }
+
+    /* optimizaciones específicas para celulares (Media Queries) */
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px 20px; /* Menos espacio interno para que respire el texto */
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.7rem; /* Texto un poco más chico para evitar saltos de línea raros */
+      }
+
+      h1 span.destacado {
+        font-size: 1.8rem;
+      }
+
+      .bienvenida-equipo {
+        font-size: 1rem;
+        padding: 6px 15px;
+        margin-bottom: 20px;
+      }
+
+      .card-indicaciones {
+        padding: 18px;
+        margin-bottom: 20px;
+      }
+
+      .target-txt {
+        font-size: 1rem;
+      }
+
+      .narrativa {
+        font-size: 0.95rem;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -181,7 +226,6 @@
 
     <div class="sub-info">
       <div class="info-item">⚡ ¡Sumás 4 pts por acierto!</div>
-      
     </div>
 
     <button onclick="iniciarActividad()">
