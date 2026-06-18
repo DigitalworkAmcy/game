@@ -14,7 +14,7 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,8 +23,8 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-      overflow: hidden;
       color: white;
+      padding: 20px 0; /* Evita que el contenedor pegue a los bordes superior/inferior en pantallas chicas */
     }
 
     .container {
@@ -154,6 +154,28 @@
       transform: translateY(-3px);
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
+    }
+
+    /* ==========================================
+       MEDIA QUERIES PARA RESPONSIVIDAD TOTAL
+       ========================================== */
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px 20px; /* Reducimos márgenes internos en pantallas chicas */
+      }
+
+      h1 {
+        font-size: 1.8rem; /* Título adaptado a móviles */
+      }
+
+      h1 span.destacado {
+        font-size: 1.9rem;
+      }
+
+      .sub-info {
+        flex-direction: column; /* Apila las tarjetas de información verticalmente */
+        gap: 10px;
+      }
     }
   </style>
 </head>

@@ -279,7 +279,7 @@
   </div>
 
   <script>
-    const CODIGO_CORRECTO = "14"; 
+    const CODIGO_CORRECTO = "11"; 
     let codigoIngresado = "";
 
     window.onload = function() {
@@ -371,7 +371,7 @@
 
       if (codigoIngresado === CODIGO_CORRECTO) {
         let puntajeActual = parseInt(localStorage.getItem("puntaje") || "0");
-        localStorage.setItem("puntaje", puntajeActual + 100);
+        localStorage.setItem("puntaje", puntajeActual + 1);
         mostrarMensaje("exito"); 
       } else {
         display.classList.add("error");

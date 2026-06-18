@@ -363,23 +363,23 @@
       });
 
       let totalPrevio = parseInt(localStorage.getItem("puntaje")) || 0;
-      let nuevoTotal = totalPrevio + (aciertos * 100); 
+      let nuevoTotal = totalPrevio + (aciertos * 1); 
       localStorage.setItem("puntaje", nuevoTotal);
 
       let enunciadoPuntaje = "";
       switch (aciertos) {
         case 3:
-          enunciadoPuntaje = "<strong>🏆 ¡Excelente!</strong><br>¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés identificar opciones que ayudan a cuidar tu salud y mantener una alimentación equilibrada. ¡Seguí así!";
+          enunciadoPuntaje = "<strong>🏆 ¡Excelente!</strong><br>¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés manejar las pausas activa. ¡Seguí así!";
           break;
         case 2:
-          enunciadoPuntaje = "<strong>🍏 2 puntos – ¡Podés mejorar!</strong><br>Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas más nutritivas y seguir aprendiendo sobre alimentación saludable.";
+          enunciadoPuntaje = "<strong>🍏 2 puntos – ¡Podés mejorar!</strong><br>Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas sobre pausas activas";
           break;
         case 1:
-          enunciadoPuntaje = "<strong>🚦 1 punto – ¡Es momento de revisar tus elecciones!</strong><br>La mayoría de las opciones elegidas no fueron las más saludables. Incorporar más frutas, verduras, legumbres y agua puede ayudarte a mejorar tu alimentación.";
+          enunciadoPuntaje = "<strong>🚦 1 punto – ¡Es momento de revisar tus elecciones!</strong><br>La mayoría de las opciones elegidas no fueron las más saludables. Mejora tu pausa activa.No te quedes";
           break;
         case 0:
         default:
-          enunciadoPuntaje = "<strong>🩺 0 puntos – ¡Desafío saludable!</strong><br>Tus elecciones no fueron las más beneficiosas para la salud. Una alimentación equilibrada es fundamental para prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico.";
+          enunciadoPuntaje = "<strong>🩺 0 puntos – ¡Desafío saludable!</strong><br>Tus elecciones no fueron las más beneficiosas para la salud. Las pausas activas ayudan a prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico.";
           break;
       }
 

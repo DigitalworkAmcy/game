@@ -13,31 +13,33 @@
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    body{
-      min-height:100vh;
-      background:
-      linear-gradient(rgba(15,23,42,0.9), rgba(30,41,59,0.95)),
-      url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1920&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
-      color:white;
-    }
+   body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px 0;
+  background:
+  linear-gradient(135deg, rgba(0, 123, 189, 0.85), rgba(0, 180, 236, 0.9)),
+  url('Imagen2.jpg');
+  background-size:cover;
+  background-position:center;
+  overflow-x:hidden;
+  color:white;
+}
 
     .container{
-      width:100%;
-      max-width:1100px;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(12px);
-      border-radius:30px;
-      padding:40px;
-      box-shadow:0 10px 40px rgba(0,0,0,0.5);
-      border:1px solid rgba(255,255,255,0.1);
-      animation:fadeIn 1s ease;
-    }
+  width:1100px;
+  max-width:95%;
+  padding:35px 40px;
+  border-radius:28px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  border:1px solid rgba(255,255,255,0.25);
+  box-shadow:0 20px 50px rgba(0,50,100,0.3);
+  animation:fadeIn 1s ease;
+}
 
     @keyframes fadeIn{
       from{
@@ -79,18 +81,18 @@
     }
 
     .bloque{
-      background:rgba(255,255,255,0.08);
-      border-radius:20px;
-      padding:25px;
-      margin-bottom:25px;
-      border:1px solid rgba(255,255,255,0.1);
-    }
+  background:rgba(15,23,42,0.35);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:16px;
+  padding:20px 25px;
+  margin-bottom:20px;
+}
 
     .bloque h2{
-      margin-bottom:20px;
-      color:#93c5fd;
-      font-size:1.8rem;
-    }
+  color:#ffffff;
+  margin-bottom:15px;
+  font-size:1.5rem;
+}
 
     .acciones{
       margin-top:35px;
@@ -98,17 +100,26 @@
     }
 
     button{
-      padding:16px 45px;
-      border:none;
-      border-radius:15px;
-      background:linear-gradient(135deg,#2563eb,#3b82f6);
-      color:white;
-      font-size:1rem;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-      box-shadow:0 5px 20px rgba(37,99,235,0.5);
-    }
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:15px;
+  font-size:1.1rem;
+  font-weight:bold;
+  cursor:pointer;
+  background:white;
+  color:#007bbd;
+  transition:0.3s ease;
+  box-shadow:0 4px 15px rgba(0,0,0,0.15);
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 22px rgba(255,255,255,0.4);
+  background:#f0f9ff;
+}
 
     button:hover{
       transform:translateY(-3px);
@@ -130,15 +141,17 @@
     }
 
     .modal-contenido{
-      width:90%;
-      max-width:500px;
-      background:#0f172a;
-      padding:40px;
-      border-radius:25px;
-      text-align:center;
-      box-shadow:0 10px 40px rgba(0,0,0,0.5);
-      animation:modalShow 0.5s ease;
-    }
+  width:90%;
+  max-width:550px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(25px);
+  border:1px solid rgba(255,255,255,0.25);
+  padding:40px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,50,100,0.3);
+  animation:modalShow 0.5s ease;
+}
 
     @keyframes modalShow{
       from{
@@ -342,10 +355,10 @@
       <div class="opciones-grid">
         
         <label class="tarjeta-opcion">
-          <input type="radio" name="acompanamiento" class="correcta">
+          <input type="radio" name="acompanamiento" class="incorrecta">
           <div class="tarjeta-contenido">
             <img src="img/a1.jpg" alt="Ensalada mixta" class="img-opcion">
-            <span class="texto-opcion">Ensalada mixta</span>
+            <span class="texto-opcion">Papas fritas/noisette</span>
           </div>
         </label>
 
@@ -361,15 +374,15 @@
           <input type="radio" name="acompanamiento" class="incorrecta">
           <div class="tarjeta-contenido">
             <img src="img/a3.jpg" alt="Papas fritas" class="img-opcion">
-            <span class="texto-opcion">Papas fritas/noisette</span>
+            <span class="texto-opcion">Puré instantáneo</span>
           </div>
         </label>
 
         <label class="tarjeta-opcion">
-          <input type="radio" name="acompanamiento" class="incorrecta">
+          <input type="radio" name="acompanamiento" class="correcta">
           <div class="tarjeta-contenido">
             <img src="img/a4.jpg" alt="Puré instantáneo" class="img-opcion">
-            <span class="texto-opcion">Puré instantáneo</span>
+            <span class="texto-opcion">Ensalada mixta</span>
           </div>
         </label>
       </div>
@@ -388,10 +401,10 @@
         </label>
 
         <label class="tarjeta-opcion">
-          <input type="radio" name="bebida" class="correcta">
+          <input type="radio" name="bebida" class="incorrecta">
           <div class="tarjeta-contenido">
             <img src="img/b2.jpg" alt="Agua saborizada" class="img-opcion">
-            <span class="texto-opcion">Agua saborizada sin azúcar</span>
+            <span class="texto-opcion">Gaseosa comun</span>
           </div>
         </label>
 
@@ -399,15 +412,15 @@
           <input type="radio" name="bebida" class="incorrecta">
           <div class="tarjeta-contenido">
             <img src="img/b3.jpg" alt="Gaseosa" class="img-opcion">
-            <span class="texto-opcion">Gaseosa común</span>
+            <span class="texto-opcion">Bebida energizante</span>
           </div>
         </label>
 
         <label class="tarjeta-opcion">
-          <input type="radio" name="bebida" class="incorrecta">
+          <input type="radio" name="bebida" class="correcta">
           <div class="tarjeta-contenido">
             <img src="img/b4.jpg" alt="Bebida energizante" class="img-opcion">
-            <span class="texto-opcion">Bebida energizante</span>
+            <span class="texto-opcion">Agua saborizada sin azúcar</span>
           </div>
         </label>
       </div>
@@ -418,25 +431,9 @@
       <div class="opciones-grid">
         
         <label class="tarjeta-opcion">
-          <input type="radio" name="postre" class="correcta">
-          <div class="tarjeta-contenido">
-            <img src="img/p1.jpg" alt="Fruta fresca" class="img-opcion">
-            <span class="texto-opcion">Fruta fresca</span>
-          </div>
-        </label>
-
-        <label class="tarjeta-opcion">
-          <input type="radio" name="postre" class="correcta">
-          <div class="tarjeta-contenido">
-            <img src="img/p2.jpg" alt="Yogur natural" class="img-opcion">
-            <span class="texto-opcion">Yogur natural</span>
-          </div>
-        </label>
-
-        <label class="tarjeta-opcion">
           <input type="radio" name="postre" class="incorrecta">
           <div class="tarjeta-contenido">
-            <img src="img/p3.jpg" alt="Postrecito industrial" class="img-opcion">
+            <img src="img/p4.jpg" alt="Fruta fresca" class="img-opcion">
             <span class="texto-opcion">Postrecito industrial</span>
           </div>
         </label>
@@ -444,8 +441,24 @@
         <label class="tarjeta-opcion">
           <input type="radio" name="postre" class="incorrecta">
           <div class="tarjeta-contenido">
-            <img src="img/p4.jpg" alt="Alfajor" class="img-opcion">
+            <img src="img/p2.jpg" alt="Yogur natural" class="img-opcion">
             <span class="texto-opcion">Alfajor</span>
+          </div>
+        </label>
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/p3.jpg" alt="Postrecito industrial" class="img-opcion">
+            <span class="texto-opcion">Fruta fresca</span>
+          </div>
+        </label>
+
+        <label class="tarjeta-opcion">
+          <input type="radio" name="postre" class="correcta">
+          <div class="tarjeta-contenido">
+            <img src="img/p1.jpg" alt="Alfajor" class="img-opcion">
+            <span class="texto-opcion">Yogur natural</span>
           </div>
         </label>
       </div>
@@ -469,7 +482,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     // MOSTRAR JUGADOR
     const nombre = localStorage.getItem("jugador");
     if(nombre){
@@ -484,33 +497,52 @@
 
     // EVALUAR RESPUESTAS
     function evaluar(){
+      // 1. Contar las opciones correctas seleccionadas
       let puntos = 0;
+      const opcionesSeleccionadas = document.querySelectorAll('input[type="radio"]:checked');
+      
+      // Validar si el usuario respondió a las 4 categorías
+      if(opcionesSeleccionadas.length < 4) {
+        alert("Por favor, selecciona una opción en cada una de las 4 categorías antes de enviar.");
+        return;
+      }
 
-      // SE EVALÚAN LOS ELEMENTOS SELECCIONADOS QUE SEAN CORRECTOS
-      const correctas = document.querySelectorAll(".correcta");
-      correctas.forEach(function(item){
-        if(item.checked){
+      opcionesSeleccionadas.forEach(opcion => {
+        if(opcion.classList.contains('correcta')){
           puntos++;
         }
       });
 
-      // EVITAR PUNTAJE NEGATIVO EN LA ACTIVIDAD ACTUAL
-      if(puntos < 0){
-        puntos = 0;
+      // 2. Determinar el rendimiento visual según los puntos
+      let rendimiento = "";
+      switch(puntos){
+        case 1:
+          rendimiento = "🔴 Desempeño: <strong>MALO</strong>";
+          break;
+        case 2:
+          rendimiento = "🟠 Desempeño: <strong>REGULAR</strong>";
+          break;
+        case 3:
+          rendimiento = "🟡 Desempeño: <strong>BUENO</strong>";
+          break;
+        case 4:
+          rendimiento = "🟢 Desempeño: <strong>EXCELENTE</strong>";
+          break;
+        default:
+          rendimiento = "⚠️ Desempeño: <strong>MUY BAJO</strong>";
       }
 
-      // OBTENER PUNTAJE ACUMULADO PREVIO
+      // 3. Obtener y actualizar puntaje acumulado en localStorage
       let total = parseInt(localStorage.getItem("puntaje")) || 0;
       total += puntos;
-
-      // GUARDAR EL NUEVO TOTAL ACUMULADO
       localStorage.setItem("puntaje", total);
 
-      // MOSTRAR MODAL CON LOS RESULTADOS
+      // 4. Mostrar el modal con los resultados finales
       document.getElementById("modal").style.display = "flex";
       document.getElementById("mensaje").innerHTML =
-      "Usted obtuvo <strong>" + puntos + "</strong> puntos en esta actividad.<br><br>" +
-      "Puntaje acumulado: <strong>" + total + "</strong>";
+        "Usted obtuvo <strong>" + puntos + "</strong> puntos en esta actividad.<br><br>" +
+        rendimiento + "<br><br>" +
+        "Puntaje acumulado total: <strong>" + total + "</strong>";
     }
 
     // CONTINUAR A LA PÁGINA FINAL

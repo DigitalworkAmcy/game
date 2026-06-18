@@ -171,6 +171,58 @@
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
     }
+
+    .tabla-presion {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 0.95rem;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.tabla-presion th {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  text-align: center;
+}
+
+.tabla-presion td {
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.05);
+}
+
+.tabla-presion tr:hover td {
+  background: rgba(255,255,255,0.12);
+}
+
+.estado-ok {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.estado-normal {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.estado-pre {
+  color: #ffb347;
+  font-weight: bold;
+}
+
+.estado-h1 {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.estado-h2 {
+  color: #ff3b3b;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -188,7 +240,8 @@
       </div>
       
       <div class="alarma-activa">
-        🚨 Alarma activa: "Hemodinámica inestable - Tensión Arterial Elevada..."
+        🚨 Alarma activa: “Sobrepresión en el circuito arterial detectada…”
+
       </div>
       
       <p class="instruccion-clave">💡 El equipo analiza el Sedentarismo y las Horas de Vuelo</p>
@@ -201,15 +254,52 @@
       </div>
       <div class="clinica-info">
         <p><em>“Muchas horas sentado aumentan la presión en las tuberías”</em></p>
-        <p style="margin-top: 5px;">El sedentarismo prolongado y la falta de pausas activas durante las travesías han generado un aumento sostenido de la resistencia vascular periférica.</p>
+        <p style="margin-top: 5px;">Datos del paciente: El monitor del vestuario parpadea en rojo y arroja una medición actual de 155/95 mmHg
+</p>
         
         <br>
-        <strong>📋 Registro del Capitán:</strong>
-        <ul>
-          <li>📈 Presión Arterial: Registra habitualmente valores de 140/90 mmHg.</li>
-          <li>🪑 Actividad Laboral: Pasa más de 8 horas consecutivas sentado frente a los controles sin realizar movilidad alguna.</li>
-          <li>🎯 Consecuencia: Sobrecarga continua sobre las paredes del corazón y riesgo inminente de daño miocárdico.</li>
-        </ul>
+        <strong>📋 Cruzan esa presión del paciente con la tabla e identifican si esta con presión elevada y que grado es.</strong>
+        <table class="tabla-presion">
+  <thead>
+    <tr>
+      <th>ESTADO DEL SISTEMA</th>
+      <th>TENSIÓN SISTÓLICA (MÁXIMA)</th>
+      <th>TENSIÓN DIASTÓLICA (MÍNIMA)</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td class="estado-ok">✅ ÓPTIMA</td>
+      <td>Menos de 120</td>
+      <td>Menos de 80</td>
+    </tr>
+
+    <tr>
+      <td class="estado-normal">👍 NORMAL</td>
+      <td>120 - 129</td>
+      <td>80 - 84</td>
+    </tr>
+
+    <tr>
+      <td class="estado-pre">⚠️ PREHIPERTENSIÓN</td>
+      <td>130 - 139</td>
+      <td>85 - 89</td>
+    </tr>
+
+    <tr>
+      <td class="estado-h1">🚨 HIPERTENSIÓN GRADO 1</td>
+      <td>140 - 159</td>
+      <td>90 - 99</td>
+    </tr>
+
+    <tr>
+      <td class="estado-h2">🔴 HIPERTENSIÓN GRADO 2</td>
+      <td>160 o más</td>
+      <td>100 o más</td>
+    </tr>
+  </tbody>
+</table>
       </div>
     </div>
 
@@ -218,10 +308,11 @@
         🔢 Código de Desbloqueo
       </div>
       <div class="clinica-info">
-        <p>Al cruzar los datos de presión sistólica límite y el nivel de inactividad física extrema evaluado en el protocolo de salud, se consolida la siguiente clave de acceso:</p>
+        <p>El número del Grado de Hipertensión detectado en la tabla es el SEGUNDO DÍGITO del código de desbloqueo. 
+:</p>
         
         <div class="resultado-final">
-          📊 SEGUNDO DÍGITO del código de desbloqueo: 4
+          📊 SEGUNDO DÍGITO del código de desbloqueo ES...
         </div>
       </div>
     </div>
