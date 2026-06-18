@@ -14,7 +14,7 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh; 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,13 +23,16 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-    
+      background-attachment: fixed; /* Mantiene el fondo estático en el scroll */
       color: white;
+      padding: 30px 12px;
+      overflow-y: auto; /* Asegura scroll si el contenido supera la pantalla */
+      -webkit-overflow-scrolling: touch;
     }
 
     .container {
       width: 580px;
-      max-width: 92%;
+      max-width: 100%;
       padding: 40px;
       border-radius: 28px;
       background: rgba(255, 255, 255, 0.12);
@@ -146,12 +149,68 @@
       transition: 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       letter-spacing: 0.5px;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    button:hover {
-      transform: translateY(-3px);
+    button:hover, button:active {
+      transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
+    }
+
+    /* --- AJUSTES ESPECÍFICOS PARA DISPOSITIVOS MÓVILES --- */
+    @media (max-width: 480px) {
+      body {
+        display: block; /* Desactiva el centrado flex rígido para liberar el scroll */
+      }
+
+      .container {
+        margin: 0 auto;
+        padding: 25px 20px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      h1 span.destacado {
+        font-size: 1.8rem;
+      }
+
+      .bienvenida-equipo {
+        font-size: 1rem;
+        padding: 6px 15px;
+        margin-bottom: 20px;
+      }
+
+      .card-indicaciones {
+        padding: 18px;
+        margin-bottom: 20px;
+      }
+
+      .target-txt {
+        font-size: 1rem;
+      }
+
+      .narrativa {
+        font-size: 0.95rem;
+      }
+
+      .sub-info {
+        flex-direction: column; /* Apila los dos recuadros informativos si no entran horizontalmente */
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .info-item {
+        max-width: 100%;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
