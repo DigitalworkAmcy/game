@@ -14,7 +14,7 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh; 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,13 +23,16 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-      overflow: hidden;
+      background-attachment: fixed; /* Mantiene el fondo estático en el scroll */
       color: white;
+      padding: 30px 12px;
+      overflow-y: auto; /* Asegura scroll si el contenido supera la pantalla */
+      -webkit-overflow-scrolling: touch;
     }
 
     .container {
       width: 580px;
-      max-width: 92%;
+      max-width: 100%;
       padding: 40px;
       border-radius: 28px;
       background: rgba(255, 255, 255, 0.12);
@@ -147,12 +150,69 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    button:hover {
-      transform: translateY(-3px);
+    button:hover, button:active {
+      transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
+    }
+
+    /* --- RESPONSIVE PARA DISPOSITIVOS MÓVILES --- */
+    @media (max-width: 480px) {
+      body {
+        display: block; /* Desactiva el centrado flex rígido para liberar el scroll */
+      }
+
+      .container {
+        margin: 0 auto;
+        padding: 25px 20px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      h1 span.destacado {
+        font-size: 1.7rem;
+      }
+
+      .bienvenida-equipo {
+        font-size: 1rem;
+        padding: 6px 15px;
+        margin-bottom: 20px;
+      }
+
+      .card-indicaciones {
+        padding: 18px;
+        margin-bottom: 20px;
+      }
+
+      /* Remueve padding si el bloque target-txt está vacío para que no meta espacio extra */
+      .target-txt:empty {
+        display: none;
+      }
+
+      .narrativa {
+        font-size: 0.95rem;
+      }
+
+      .sub-info {
+        flex-direction: column; /* Apila los bloques informativos */
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .info-item {
+        max-width: 100%;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -171,9 +231,7 @@
     </h1>
 
     <div class="card-indicaciones">
-      <div class="target-txt">
-       
-      </div>
+      <div class="target-txt"></div>
 
       <p class="narrativa">
         "¡Excelente desempeño en el VAR! Pero el partido no terminó y entramos en tiempo de descuento. Un jugador esta por patear un penal y colapsa con un dolor agudo en el pecho. En situaciones críticas de salud, el orden de tus acciones determina el resultado de la supervivencia. Organicen el plan de intervención sin perder un solo segundo."
@@ -192,7 +250,6 @@
 
   <script>
     window.onload = function() {
-      // Reutilizar nombre de equipo persistido en localStorage
       const equipoGuardado = localStorage.getItem("equipoJugador") || localStorage.getItem("jugador");
       if (equipoGuardado) {
         document.getElementById("nombreEquipoDinamico").innerText = equipoGuardado;
@@ -200,7 +257,6 @@
         document.getElementById("cartelBienvenida").innerText = "¡Bienvenidos al Desafío!";
       }
 
-      // Sincronización continua de la música de fondo
       const audio = document.getElementById("musicaFondo");
       audio.volume = 0.6;
       const musicaActiva = localStorage.getItem("musicaActiva");
@@ -220,7 +276,6 @@
       }, 100);
     }
 
-    // Redirección directa al archivo del juego que armamos
     function iniciarActividad() {
       window.location.href = "estacion5.html";
     }
