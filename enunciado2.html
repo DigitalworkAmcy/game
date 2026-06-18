@@ -24,8 +24,9 @@
       url('Imagen2.jpg');
       background-size: cover;
       background-position: center;
-      overflow-x: hidden;
       color: white;
+      overflow-y: auto; /* Asegura scroll general vertical */
+      -webkit-overflow-scrolling: touch;
     }
 
     .container {
@@ -77,7 +78,6 @@
       padding-bottom: 10px;
     }
 
-    /* Paneles de Contenido Estilizados */
     .modulo-box {
       background: rgba(15, 23, 42, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -121,20 +121,45 @@
       margin-bottom: 15px;
     }
 
-    .clinica-info ul {
-      list-style: none;
-      padding-left: 5px;
-      margin-top: 10px;
+    /* --- CONTENEDOR CLAVE PARA EVITAR DESENFOQUE Y DESBORDE --- */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto; /* Habilita scroll horizontal solo si la tabla no entra */
+      margin-top: 15px;
+      border-radius: 10px;
+      -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
     }
 
-    .clinica-info li {
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 12px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .tabla-presion {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      min-width: 450px; /* Evita que las columnas se compriman de forma ilegible */
+    }
+
+    .tabla-presion th {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.25);
+      text-align: center;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .tabla-presion td {
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    .tabla-presion td:first-child {
+      text-align: left; /* Alinea el texto del estado a la izquierda */
+    }
+
+    .tabla-presion tr:hover td {
+      background: rgba(255,255,255,0.12);
     }
 
     .resultado-final {
@@ -164,65 +189,63 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-top: 10px;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    button:hover {
-      transform: translateY(-3px);
+    button:hover, button:active {
+      transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(255, 255, 255, 0.4);
       background: #f0f9ff;
     }
 
-    .tabla-presion {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  font-size: 0.95rem;
-  overflow: hidden;
-  border-radius: 10px;
-}
+    .estado-ok { color: #00ff88; font-weight: bold; }
+    .estado-normal { color: #ffd700; font-weight: bold; }
+    .estado-pre { color: #ffb347; font-weight: bold; }
+    .estado-h1 { color: #ff6b6b; font-weight: bold; }
+    .estado-h2 { color: #ff3b3b; font-weight: bold; }
 
-.tabla-presion th {
-  background: rgba(255,255,255,0.15);
-  color: white;
-  padding: 12px;
-  border: 1px solid rgba(255,255,255,0.25);
-  text-align: center;
-}
+    /* --- RESPONSIVE MOBILE --- */
+    @media (max-width: 480px) {
+      body {
+        display: block; /* Desactiva flex rígido */
+        padding: 15px 0;
+      }
 
-.tabla-presion td {
-  padding: 10px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.05);
-}
+      .container {
+        margin: 0 auto;
+        padding: 25px 15px;
+      }
 
-.tabla-presion tr:hover td {
-  background: rgba(255,255,255,0.12);
-}
+      h1 {
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+      }
 
-.estado-ok {
-  color: #00ff88;
-  font-weight: bold;
-}
+      .modulo-box {
+        padding: 15px;
+      }
 
-.estado-normal {
-  color: #ffd700;
-  font-weight: bold;
-}
+      .modulo-title {
+        font-size: 1.05rem;
+      }
 
-.estado-pre {
-  color: #ffb347;
-  font-weight: bold;
-}
+      .clinica-info {
+        font-size: 0.95rem;
+      }
 
-.estado-h1 {
-  color: #ff6b6b;
-  font-weight: bold;
-}
+      .tabla-presion {
+        font-size: 0.85rem;
+      }
 
-.estado-h2 {
-  color: #ff3b3b;
-  font-weight: bold;
-}
+      .tabla-presion th, .tabla-presion td {
+        padding: 8px 6px;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -241,7 +264,6 @@
       
       <div class="alarma-activa">
         🚨 Alarma activa: “Sobrepresión en el circuito arterial detectada…”
-
       </div>
       
       <p class="instruccion-clave">💡 El equipo analiza el Sedentarismo y las Horas de Vuelo</p>
@@ -254,52 +276,50 @@
       </div>
       <div class="clinica-info">
         <p><em>“Muchas horas sentado aumentan la presión en las tuberías”</em></p>
-        <p style="margin-top: 5px;">Datos del paciente: El monitor del vestuario parpadea en rojo y arroja una medición actual de 155/95 mmHg
-</p>
+        <p style="margin-top: 5px;">Datos del paciente: El monitor del vestuario parpadea en rojo y arroja una medición actual de 155/95 mmHg</p>
         
         <br>
         <strong>📋 Cruzan esa presión del paciente con la tabla e identifican si esta con presión elevada y que grado es.</strong>
-        <table class="tabla-presion">
-  <thead>
-    <tr>
-      <th>ESTADO DEL SISTEMA</th>
-      <th>TENSIÓN SISTÓLICA (MÁXIMA)</th>
-      <th>TENSIÓN DIASTÓLICA (MÍNIMA)</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td class="estado-ok">✅ ÓPTIMA</td>
-      <td>Menos de 120</td>
-      <td>Menos de 80</td>
-    </tr>
-
-    <tr>
-      <td class="estado-normal">👍 NORMAL</td>
-      <td>120 - 129</td>
-      <td>80 - 84</td>
-    </tr>
-
-    <tr>
-      <td class="estado-pre">⚠️ PREHIPERTENSIÓN</td>
-      <td>130 - 139</td>
-      <td>85 - 89</td>
-    </tr>
-
-    <tr>
-      <td class="estado-h1">🚨 HIPERTENSIÓN GRADO 1</td>
-      <td>140 - 159</td>
-      <td>90 - 99</td>
-    </tr>
-
-    <tr>
-      <td class="estado-h2">🔴 HIPERTENSIÓN GRADO 2</td>
-      <td>160 o más</td>
-      <td>100 o más</td>
-    </tr>
-  </tbody>
-</table>
+        
+        <div class="table-responsive">
+          <table class="tabla-presion">
+            <thead>
+              <tr>
+                <th>ESTADO DEL SISTEMA</th>
+                <th>TENSIÓN SISTÓLICA (MÁXIMA)</th>
+                <th>TENSIÓN DIASTÓLICA (MÍNIMA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="estado-ok">✅ ÓPTIMA</td>
+                <td>Menos de 120</td>
+                <td>Menos de 80</td>
+              </tr>
+              <tr>
+                <td class="estado-normal">👍 NORMAL</td>
+                <td>120 - 129</td>
+                <td>80 - 84</td>
+              </tr>
+              <tr>
+                <td class="estado-pre">⚠️ PREHIPERTENSIÓN</td>
+                <td>130 - 139</td>
+                <td>85 - 89</td>
+              </tr>
+              <tr>
+                <td class="estado-h1">🚨 HIPERTENSIÓN GRADO 1</td>
+                <td>140 - 159</td>
+                <td>90 - 99</td>
+              </tr>
+              <tr>
+                <td class="estado-h2">🔴 HIPERTENSIÓN GRADO 2</td>
+                <td>160 o más</td>
+                <td>100 o más</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
 
@@ -308,8 +328,7 @@
         🔢 Código de Desbloqueo
       </div>
       <div class="clinica-info">
-        <p>El número del Grado de Hipertensión detectado en la tabla es el SEGUNDO DÍGITO del código de desbloqueo. 
-:</p>
+        <p>El número del Grado de Hipertensión detectado en la tabla es el SEGUNDO DÍGITO del código de desbloqueo.:</p>
         
         <div class="resultado-final">
           📊 SEGUNDO DÍGITO del código de desbloqueo ES...
