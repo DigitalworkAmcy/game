@@ -46,12 +46,28 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Ajuste de header para el formato con cronómetro alineado */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    /* CORREGIDO: Centra el cartel de equipo y el h1 ocupando el espacio del medio */
+    .info-header {
+      text-align: center;
+      flex: 1;
+    }
+
     .bienvenida-equipo {
       font-size: 1.1rem;
       font-weight: 600;
       color: #e0f4ff;
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
       background: rgba(255, 255, 255, 0.08);
       display: inline-block;
       padding: 6px 18px;
@@ -68,12 +84,22 @@
     h1 {
       font-size: 2rem;
       color: #ffffff;
-      margin-bottom: 25px;
+      margin-top: 8px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 10px;
+    }
+
+    /* Estilo moderno para el cronómetro */
+    .cronometro {
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: 'Courier New', Courier, monospace;
+      white-space: nowrap;
     }
 
     /* Paneles de Contenido Estilizados */
@@ -146,26 +172,6 @@
       margin: 15px 0;
     }
 
-    .formula-calc {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fffb00;
-      margin-top: 5px;
-    }
-
-    .resultado-final {
-      background: rgba(16, 185, 129, 0.2);
-      border-left: 4px solid #10b981;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #d1fae5;
-      text-align: center;
-      margin-top: 15px;
-    }
-
     button {
       width: 100%;
       padding: 18px;
@@ -193,47 +199,31 @@
        MEDIA QUERIES PARA ADAPTACIÓN EN MÓVILES
        ========================================== */
     @media (max-width: 600px) {
-      .container {
-        padding: 25px 15px; /* Reducimos el colchón lateral para dar espacio al contenido */
-      }
-
-      h1 {
-        font-size: 1.5rem; /* Título principal más compacto */
-        letter-spacing: 1px;
-      }
-
-      .modulo-box {
-        padding: 15px 15px; /* Paneles internos ligeramente más delgados */
-      }
-
-      .modulo-title {
-        font-size: 1.1rem; /* Ajuste sutil de títulos internos */
-      }
-
-      .clinica-info li {
-        font-size: 0.95rem; /* Texto de la lista un poco más pequeño para evitar roturas feas */
-        padding: 6px 10px;
-      }
-
-      .formula-box {
-        font-size: 0.95rem; /* Evita que la ecuación larga desborde la caja */
-        padding: 12px;
-      }
-
-      .resultado-final {
-        font-size: 0.95rem;
-      }
+      header { justify-content: center; text-align: center; }
+      .container { padding: 25px 15px; }
+      h1 { font-size: 1.5rem; letter-spacing: 1px; }
+      .modulo-box { padding: 15px 15px; }
+      .modulo-title { font-size: 1.1rem; }
+      .clinica-info li { font-size: 0.95rem; padding: 6px 10px; }
+      .formula-box { font-size: 0.95rem; padding: 12px; }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="bienvenida-equipo" id="cartelBienvenida">
-      Equipo: <span id="nombreEquipoDinamico">...</span>
-    </div>
+    <header>
+      <div style="width: 120px;" class="desktop-spacer"></div>
 
-    <h1>Secuencia de Módulos</h1>
+      <div class="info-header">
+        <div class="bienvenida-equipo" id="cartelBienvenida">
+          Equipo: <span id="nombreEquipoDinamico">...</span>
+        </div>
+        <h1>Secuencia de Módulos</h1>
+      </div>
+
+      <div class="cronometro" id="timer">Tiempo: 00:00</div>
+    </header>
 
     <div class="modulo-box">
       <div class="modulo-title">
@@ -270,14 +260,13 @@
 
     <div class="modulo-box">
       <div class="modulo-title">
-        🧮 Procesamiento de Datos
+        🫙 Procesamiento de Datos
       </div>
       <div class="clinica-info">
         <p>Para estabilizar el sistema, deberán calcular el <strong>Índice Tabáquico acumulado</strong>.</p>
         
         <div class="formula-box">
           <p>Índice Tabáquico = (Cigarrillos por día × Años de fumador) / 20</p>
-           
         </div>
       </div>
     </div>
@@ -288,6 +277,9 @@
   </div>
 
   <script>
+    // 1. Registro del momento exacto de entrada a la pantalla actual
+    const momentoEntrada = Date.now();
+
     window.onload = function() {
       const equipoGuardado = localStorage.getItem("equipoJugador");
       if (equipoGuardado) {
@@ -295,9 +287,37 @@
       } else {
         document.getElementById("cartelBienvenida").innerText = "¡Bienvenidos al Desafío!";
       }
+
+      // Ocultar el espaciador en móviles para que fluya bien el responsive
+      if(window.innerWidth < 600) {
+        const spacer = document.querySelector('.desktop-spacer');
+        if(spacer) spacer.style.display = 'none';
+      }
+
+      // Inicialización y ejecución del cronómetro inteligente
+      actualizarCronometro();
+      setInterval(actualizarCronometro, 1000);
     }
 
+    // 2. Función para procesar y renderizar el tiempo neto transcurrido
+    function actualizarCronometro() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0; 
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000); 
+      const transcurridoTotal = tiempoPasado + tiempoActual;
+
+      const minutos = Math.floor(transcurridoTotal / 60).toString().padStart(2, "0");
+      const segundos = (transcurridoTotal % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "Tiempo: " + minutos + ":" + segundos;
+    }
+
+    // 3. Al salir, calcula los segundos acumulados en esta pantalla y los persiste en localStorage
     function siguientePista() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000);
+      
+      localStorage.setItem("tiempoAcumulado", tiempoPasado + tiempoActual);
+      
       window.location.href = "enunciado2.html";
     }
   </script>

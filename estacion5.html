@@ -40,15 +40,16 @@
     }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      padding-bottom: 20px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  gap: 12px;
+}
 
     .info-header h1 {
       font-size: 1.6rem;
@@ -185,63 +186,112 @@
     /* MODAL DE RESULTADOS */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 40, 70, 0.5);
-      backdrop-filter: blur(10px);
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.3);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
       padding: 20px;
+      animation: fadeInBg 0.4s ease;
+    }
+
+    @keyframes fadeInBg {
+      from { background: rgba(15, 23, 42, 0); backdrop-filter: blur(0px); }
+      to { background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(20px); }
     }
 
     .modal-content {
-      width: 520px;
-      max-width: 100%;
-      padding: 40px 35px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.95);
+      width: 90%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
       color: #0f172a;
-      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.4);
+      padding: 40px 30px;
+      border-radius: 28px;
       text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 30, 60, 0.4), 
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      transform: scale(0.9) translateY(20px);
+      animation: scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes scaleUp {
+      to { transform: scale(1) translateY(0); }
     }
 
     .modal-titulo { 
       font-size: 2rem; 
-      font-weight: bold; 
-      margin-bottom: 15px; 
+      font-weight: 800; 
+      margin-bottom: 25px; 
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #005685, #009ecf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-transform: uppercase; 
-      color: #007bbd;
     }
 
     .modal-texto { 
       font-size: 1.05rem; 
       margin-bottom: 30px; 
       line-height: 1.6; 
-      color: #334155;
-      text-align: left;
-      background: rgba(0, 123, 189, 0.05);
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid rgba(0, 123, 189, 0.1);
+      color: #334155; 
+      text-align: center; /* Centrado para consistencia estética */
+      background: rgba(255, 255, 255, 0.6);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 123, 189, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    /* Contenedor para los tres badges organizados en vertical */
+    .puntos-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .puntos-badge {
+      display: block;
+      padding: 10px 16px;
+      background: rgba(0, 123, 189, 0.08);
+      color: #007bbd;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid rgba(0, 123, 189, 0.05);
     }
 
     .btn-modal {
       width: 100%; 
-      padding: 16px; 
+      padding: 16px 30px; 
       border: none; 
-      border-radius: 12px;
+      border-radius: 16px;
       font-size: 1.1rem; 
-      font-weight: bold; 
+      font-weight: 700; 
       cursor: pointer;
       background: linear-gradient(135deg, #007bbd, #00b4ec); 
       color: white; 
-      transition: 0.2s;
+      box-shadow: 0 10px 25px rgba(0, 123, 189, 0.25);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
-    
+
     .btn-modal:hover { 
-      box-shadow: 0 6px 20px rgba(0, 123, 189, 0.4);
-      transform: scale(1.01); 
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 123, 189, 0.4);
+      background: linear-gradient(135deg, #00669e, #00a2d4);
+    }
+
+    .btn-modal:active {
+      transform: translateY(0);
     }
 
     @media(max-width: 500px) {
@@ -256,7 +306,7 @@
   <div class="container">
     <header>
       <div class="info-header">
-        <h1>Quinta Estación: Tiempo de descuento</h1>
+        <h1>Ultimo Momento: Tiempo de descuento</h1>
         <div class="bienvenida-equipo" id="cartelBienvenida" style="margin-top: 8px; display: inline-block;">
           Equipo: <span id="nombreEquipoDinamico">Cargando...</span>
         </div>
@@ -367,6 +417,10 @@
   </div>
 
   <script>
+    // --- NUEVA LÓGICA DE TIEMPO ACUMULADO CONTINUO ---
+    const momentoEntrada = Date.now();
+    let cronometroActivo = true;
+
     window.onload = function() {
       const equipoGuardado = localStorage.getItem("equipoJugador") || localStorage.getItem("jugador");
       if (equipoGuardado) {
@@ -374,7 +428,27 @@
       } else {
         document.getElementById("cartelBienvenida").innerText = "¡Desafío de Emergencias!";
       }
+      
+      // Render inicial y bucle continuo cada 1 segundo
+      actualizarCronometro();
       setInterval(actualizarCronometro, 1000);
+    }
+
+    // Calcula de forma precisa el tiempo total acumulado sumando el de esta pantalla
+    function obtenerTiempoTotalTranscurrido() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000);
+      return tiempoPasado + tiempoActual;
+    }
+
+    function actualizarCronometro() {
+      if (!cronometroActivo) return;
+
+      const transcurridoTotal = obtenerTiempoTotalTranscurrido();
+      const minutos = Math.floor(transcurridoTotal / 60).toString().padStart(2, "0");
+      const segundos = (transcurridoTotal % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "Tiempo: " + minutos + ":" + segundos;
     }
 
     // ========================================================
@@ -404,44 +478,46 @@
         }
       });
 
+      // Detener el reloj y congelar el tiempo final total
+      cronometroActivo = false;
+      const tiempoFinalTotal = obtenerTiempoTotalTranscurrido();
+      localStorage.setItem("tiempoAcumulado", tiempoFinalTotal); // Guardamos el acumulado final del juego
+
       // Cálculo de puntaje
       let puntosEstacion = correctas * 1;
       let totalPrevio = parseInt(localStorage.getItem("puntaje")) || 0;
       let nuevoTotal = totalPrevio + puntosEstacion;
       localStorage.setItem("puntaje", nuevoTotal);
 
-      // Feedback
+      // Feedback clínico adaptado
       let feedback = "";
       if (correctas === 6) {
-        feedback = "<strong>🏆 ¡Excelente criterio médico!</strong><br>Estableciste la prioridad de forma impecable. Reconocer los síntomas, ordenar el reposo absoluto y activar el sistema de emergencias médicas de inmediato salva vidas frente a un cuadro coronario agudo.";
+        feedback = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🏆</span><strong style='font-size: 1.25rem; color: #0f172a; display:block; margin-bottom:12px;'>¡Excelente criterio médico!</strong>Estableciste la prioridad de forma impecable. Reconocer los síntomas, ordenar el reposo absoluto y activar el sistema de emergencias médicas de inmediato salva vidas frente a un cuadro coronario agudo.";
       } else if (correctas >= 3) {
-        feedback = "<strong>🍏 ¡Buen trabajo de valoración!</strong><br>Lograste estructurar correctamente varias de las fases críticas. Recordá siempre que suspender la actividad e iniciar el reposo precoz disminuyen la demanda de oxígeno miocárdico inmediatamente.";
+        feedback = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🍏</span><strong style='font-size: 1.25rem; color: #0f172a; display:block; margin-bottom:12px;'>¡Buen trabajo de valoración!</strong>Lograste estructurar correctamente varias de las fases críticas. Recordá siempre que suspender la actividad e iniciar el reposo precoz disminuyen la demanda de oxígeno miocárdico inmediatamente.";
       } else {
-        feedback = "<strong>🩺 Desafío de Protocolo</strong><br>Ubicaste pocas respuestas en su lugar ideal. Ante sospecha de un evento cardiovascular agudo en el deporte, el orden cronológico de las acciones es vital para optimizar la cadena de supervivencia.";
+        feedback = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🩺</span><strong style='font-size: 1.25rem; color: #0f172a; display:block; margin-bottom:12px;'>Desafío de Protocolo</strong>Ubicaste pocas respuestas en su lugar ideal. Ante sospecha de un evento cardiovascular agudo en el deporte, el orden cronológico de las acciones es vital para optimizar la cadena de supervivencia.";
       }
 
+      // Formatear el tiempo total definitivo para mostrar en el modal
+      const minutosFinal = Math.floor(tiempoFinalTotal / 60).toString().padStart(2, "0");
+      const segundosFinal = (tiempoFinalTotal % 60).toString().padStart(2, "0");
+
       document.getElementById("modal").style.display = "flex";
+      
+      // Renderizado dinámico en el modal
       document.getElementById("mensaje").innerHTML = 
-        feedback + "<br><br>" +
-        "Respuestas correctas: <strong>" + correctas + " / 6</strong><br>" +
-        "Puntos ganados en esta estación: <strong>" + puntosEstacion + "</strong><br>" +
-        "Puntaje acumulado total: <strong>" + nuevoTotal + "</strong>";
+        feedback + "<br>" +
+        "<div class='puntos-container'>" +
+          "<div class='puntos-badge'>📋 Prioridades correctas: " + correctas + " / 6</div>" +
+          "<div class='puntos-badge'>🚨 Puntaje obtenido: " + puntosEstacion + " pts</div>" +
+          "<div class='puntos-badge'>🏆 Puntaje acumulado: " + nuevoTotal + " pts</div>" +
+          "<div class='puntos-badge'>⏱️ Tiempo acumulado total: " + minutosFinal + ":" + segundosFinal + "</div>" +
+        "</div>";
     }
 
     function irAlCierre() {
       window.location.href = "final.html";
-    }
-
-    // ========================================================
-    // CRONÓMETRO GLOBAL CONTINUO
-    // ========================================================
-    function actualizarCronometro() {
-      const inicio = localStorage.getItem("inicioTiempo");
-      if (!inicio) return;
-      const transcurrido = Math.floor((Date.now() - inicio) / 1000);
-      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
-      const segundos = (transcurrido % 60).toString().padStart(2, "0");
-      document.getElementById("timer").innerText = "Tiempo: " + minutos + ":" + segundos;
     }
   </script>
 </body>

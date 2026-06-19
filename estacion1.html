@@ -16,6 +16,7 @@
     body {
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background:
@@ -25,6 +26,29 @@
       background-position: center;
       overflow: hidden;
       color: white;
+    }
+
+    /* BARRA SUPERIOR (Solo logo, el timer se quitó de aquí) */
+    .header-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .header-bar .logo-text {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff, #d0f0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .escape-container {
@@ -41,12 +65,26 @@
       animation: entrada 0.8s ease-out;
     }
 
+    /* ESTILO DEL RELOJ DENTRO DEL CONTENEDOR */
+    .contenedor-timer {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+
     @keyframes entrada {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Título Dinámico y Atractivo */
     .header-estacion h1 {
       font-size: 1.8rem;
       font-weight: 800;
@@ -191,7 +229,24 @@
       line-height: 1.4;
     }
 
-    /* Contenedor de botones en fila o columna */
+    .modal-stats {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 25px;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-stats p {
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .modal-stats p:last-child { margin-bottom: 0; }
+    .modal-stats span { font-weight: bold; color: #6ee7b7; }
+
     .modal-buttons-container {
       display: flex;
       flex-direction: column;
@@ -209,27 +264,18 @@
       transition: 0.2s ease;
     }
 
-    /* Estilos del Modal de Error */
     .modal-content.error-style .modal-titulo { color: #ffffff; }
     
-    .btn-intentar {
-      background: white;
-      color: #007bbd;
-    }
-    .btn-intentar:hover {
-      background: #f0f9ff;
-    }
+    .btn-intentar { background: white; color: #007bbd; }
+    .btn-intentar:hover { background: #f0f9ff; }
 
     .btn-consigna {
       background: rgba(255, 255, 255, 0.15);
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.25);
     }
-    .btn-consigna:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
+    .btn-consigna:hover { background: rgba(255, 255, 255, 0.25); }
 
-    /* Estilos del Modal de Éxito */
     .modal-content.success-style .modal-titulo { color: #ffffff; }
     .modal-content.success-style .btn-exito {
       background: white;
@@ -241,7 +287,11 @@
 
   <audio id="musicaFondo" src="1.mp3" loop></audio>
 
+  
+
   <div class="escape-container">
+    <div class="contenedor-timer" id="timer">Tiempo: 00:00</div>
+
     <div class="header-estacion">
       <h1>🎛️ Consola de Desbloqueo</h1>
       <p>Ingresá el código numérico de 2 dígitos</p>
@@ -271,18 +321,24 @@
     <div class="modal-content" id="modalCard">
       <div class="modal-icono" id="modalIcono">⚠️</div>
       <div class="modal-titulo" id="modalTitulo">Código Incorrecto</div>
-      <div class="modal-texto" id="modalTexto">Las coordenadas introducidas no son válidas.</div>
-      
-      <div class="modal-buttons-container" id="modalButtonsBox">
-        </div>
+      <div id="modalCuerpoDinamico">
+         <div class="modal-texto" id="modalTexto">Las coordenadas introducidas no son válidas.</div>
+      </div>
+      <div class="modal-buttons-container" id="modalButtonsBox"></div>
     </div>
   </div>
 
-  <script>
+  <script {box}>
     const CODIGO_CORRECTO = "11"; 
     let codigoIngresado = "";
+    
+    // Control de tiempo exacto usando el modelo de enunciado2.html
+    let momentoEntrada = Date.now();
+    let intervaloCronometro;
+    let juegoTerminado = false;
 
     window.onload = function() {
+      // --- LÓGICA DE AUDIO ---
       const audio = document.getElementById("musicaFondo");
       audio.volume = 0.6;
       
@@ -299,6 +355,28 @@
       setInterval(() => {
         localStorage.setItem("tiempoMusica", audio.currentTime);
       }, 100);
+
+      // --- LÓGICA DEL TEMPORIZADOR ---
+      actualizarCronometro();
+      // Refresco constante cada 1 segundo
+      intervaloCronometro = setInterval(actualizarCronometro, 1000);
+    }
+
+    // Calcula de forma precisa el tiempo transcurrido total
+    function obtenerTiempoTotalTranscurrido() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000);
+      return tiempoPasado + tiempoActual;
+    }
+
+    function actualizarCronometro() {
+      if (juegoTerminado) return; // Si ya ganó, detiene la actualización visual
+
+      const transcurridoTotal = obtenerTiempoTotalTranscurrido();
+      const minutos = Math.floor(transcurridoTotal / 60).toString().padStart(2, "0");
+      const segundos = (transcurridoTotal % 60).toString().padStart(2, "0");
+
+      document.getElementById("timer").innerText = "Tiempo: " + minutos + ":" + segundos;
     }
 
     function presionarNumero(num) {
@@ -322,28 +400,51 @@
       const card = document.getElementById("modalCard");
       const icono = document.getElementById("modalIcono");
       const titulo = document.getElementById("modalTitulo");
-      const texto = document.getElementById("modalTexto");
+      const cuerpoDinamico = document.getElementById("modalCuerpoDinamico");
       const buttonsBox = document.getElementById("modalButtonsBox");
 
       card.classList.remove("error-style", "success-style");
-      buttonsBox.innerHTML = ""; // Limpiar botones anteriores
+      buttonsBox.innerHTML = ""; 
 
       if (tipo === "error") {
         card.classList.add("error-style");
         icono.innerText = "⚠️";
         titulo.innerText = "Error de Código";
-        texto.innerText = "El código ingresado es incorrecto. ¿Qué deseas hacer?";
         
-        // Agregar los dos botones requeridos
+        cuerpoDinamico.innerHTML = `<div class="modal-texto">El código ingresado es incorrecto. ¿Qué deseas hacer?</div>`;
+        
         buttonsBox.innerHTML = `
           <button class="modal-btn btn-intentar" onclick="reintentarCodigo()">Volver a intentar</button>
           <button class="modal-btn btn-consigna" onclick="irAConsigna()">Volver a ver consigna</button>
         `;
       } else if (tipo === "exito") {
+        juegoTerminado = true;
+        clearInterval(intervaloCronometro);
+
+        // Guardamos y acumulamos el tiempo final antes de congelar las variables
+        const tiempoTotalAlGanar = obtenerTiempoTotalTranscurrido();
+        localStorage.setItem("tiempoAcumulado", tiempoTotalAlGanar);
+
         card.classList.add("success-style");
         icono.innerText = "🔓";
         titulo.innerText = "¡Desbloqueado!";
-        texto.innerText = "Código de anulación correcto. El sistema se ha estabilizado con éxito.";
+        
+        let puntajeFinal = localStorage.getItem("puntaje") || "1";
+        
+        // Convertimos el tiempo total acumulado para el modal
+        const minModal = Math.floor(tiempoTotalAlGanar / 60).toString().padStart(2, "0");
+        const segModal = (tiempoTotalAlGanar % 60).toString().padStart(2, "0");
+        let tiempoFormateado = `${minModal}:${segModal}`;
+
+        cuerpoDinamico.innerHTML = `
+          <div class="modal-texto" style="margin-bottom: 15px;">
+            Código de anulación correcto. El sistema se ha estabilizado con éxito.
+          </div>
+          <div class="modal-stats">
+            <p>🎯 Puntaje Acumulado: <span>${puntajeFinal}</span></p>
+            <p>⏱️ Tiempo Acumulado: <span>${tiempoFormateado}</span></p>
+          </div>
+        `;
         
         buttonsBox.innerHTML = `
           <button class="modal-btn btn-exito" onclick="continuarJuego()">Continuar</button>
@@ -359,6 +460,8 @@
     }
 
     function irAConsigna() {
+      // Antes de navegar, guardamos los segundos que transcurrieron en esta pantalla
+      localStorage.setItem("tiempoAcumulado", obtenerTiempoTotalTranscurrido());
       window.location.href = "enunciado1.html";
     }
 

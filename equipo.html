@@ -175,21 +175,21 @@
     }
 
     function comenzarActividad(){
-      const equipoInput = document.getElementById("nombreEquipo").value.trim();
+  const equipoInput = document.getElementById("nombreEquipo").value.trim();
 
-      // Validación para asegurarse de que escriban algo
-      if(equipoInput === ""){
-        alert("Por favor, ingresá un nombre para tu equipo antes de continuar.");
-        return;
-      }
+  if(equipoInput === ""){
+    alert("Por favor, ingresá un nombre para tu equipo antes de continuar.");
+    return;
+  }
 
-      // Guardamos el nombre ingresado por el usuario
-      localStorage.setItem("equipoJugador", equipoInput);
-      localStorage.setItem("puntaje", 0);
-      localStorage.setItem("inicioTiempo", Date.now());
+  localStorage.setItem("equipoJugador", equipoInput);
+  localStorage.setItem("puntaje", 0);
+  
+  // NUEVO: Inicializa el tiempo acumulado neto en 0 segundos
+  localStorage.setItem("tiempoAcumulado", 0); 
 
-      window.location.href = "indicaciones1.html";
-    }
+  window.location.href = "indicaciones1.html";
+}
   </script>
 </body>
 </html>

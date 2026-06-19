@@ -483,6 +483,11 @@ button:hover{
   </div>
 
  <script>
+    // Registro del momento exacto de entrada a la pantalla actual (Modelo enunciado2.html)
+    const momentoEntrada = Date.now();
+    let intervaloCronometro;
+    let juegoTerminado = false;
+
     // MOSTRAR JUGADOR
     const nombre = localStorage.getItem("jugador");
     if(nombre){
@@ -495,11 +500,32 @@ button:hover{
       localStorage.setItem("puntaje", 0);
     }
 
+    window.onload = function() {
+      // Ejecución inicial y refresco continuo del temporizador
+      actualizarCronometro();
+      intervaloCronometro = setInterval(actualizarCronometro, 1000);
+    }
+
+    // CALCULAR TIEMPO TOTAL TRANSCURRIDO (Modelo exacto de enunciado2.html)
+    function obtenerTiempoTotalTranscurrido() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000);
+      return tiempoPasado + tiempoActual;
+    }
+
+    function actualizarCronometro(){
+      if (juegoTerminado) return;
+
+      const transcurridoTotal = obtenerTiempoTotalTranscurrido();
+      const minutos = Math.floor(transcurridoTotal / 60).toString().padStart(2, "0");
+      const segundos = (transcurridoTotal % 60).toString().padStart(2, "0");
+
+      document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
+    }
+
     // EVALUAR RESPUESTAS
     function evaluar(){
-      // 1. Contar las opciones correctas seleccionadas
-      let puntos = 0;
-      const opcionesSeleccionadas = document.querySelectorAll('input[type="radio"]:checked');
+      let opcionesSeleccionadas = document.querySelectorAll('input[type="radio"]:checked');
       
       // Validar si el usuario respondió a las 4 categorías
       if(opcionesSeleccionadas.length < 4) {
@@ -507,67 +533,63 @@ button:hover{
         return;
       }
 
+      juegoTerminado = true;
+      clearInterval(intervaloCronometro);
+
+      // Guardar y acumular el tiempo final en esta pantalla
+      const tiempoFinalEstacion = obtenerTiempoTotalTranscurrido();
+      localStorage.setItem("tiempoAcumulado", tiempoFinalEstacion);
+
+      let puntos = 0;
       opcionesSeleccionadas.forEach(opcion => {
         if(opcion.classList.contains('correcta')){
           puntos++;
         }
       });
 
-      // 2. Determinar el rendimiento visual según los puntos
+      // Determinar el rendimiento visual según los puntos
       let rendimiento = "";
       switch(puntos){
         case 1:
-          rendimiento = "🔴 Desempeño: <strong>MALO</strong>";
+          rendimiento = "🚦 <strong>1 punto </strong>  - ¡Es momento de revisar tus elecciones! La mayoría de las opciones elegidas no fueron las más saludables. Incorporar más frutas, verduras, legumbres y agua puede ayudarte a mejorar tu alimentación.";
           break;
         case 2:
-          rendimiento = "🟠 Desempeño: <strong>REGULAR</strong>";
+          rendimiento = "🍏 <strong>2 puntos </strong>  - ¡Podés mejorar! Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas más nutritivas y seguir aprendiendo sobre alimentación saludable.";
           break;
         case 3:
-          rendimiento = "🟡 Desempeño: <strong>BUENO</strong>";
+          rendimiento = "🌟 <strong>3 puntos </strong> - ¡Muy bien! La mayoría de tus elecciones fueron saludables. Hay algunos aspectos que podrías mejorar, pero vas por muy buen camino. ¡Pequeños cambios pueden hacer una gran diferencia!";
           break;
         case 4:
-          rendimiento = "🟢 Desempeño: <strong>EXCELENTE</strong>";
+          rendimiento = "🏆 <strong>4 puntos </strong> - ¡Excelente! ¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés identificar opciones que ayudan a cuidar tu salud y mantener una alimentación equilibrada. ¡Seguí así!";
           break;
         default:
-          rendimiento = "⚠️ Desempeño: <strong>MUY BAJO</strong>";
+          rendimiento = "🩺 <strong>0 puntos </strong>  - ¡Desafío saludable! Tus elecciones no fueron las más beneficiosas para la salud. Una alimentación equilibrada es fundamental para prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico";
       }
 
-      // 3. Obtener y actualizar puntaje acumulado en localStorage
+      // Obtener y actualizar puntaje acumulado en localStorage
       let total = parseInt(localStorage.getItem("puntaje")) || 0;
       total += puntos;
       localStorage.setItem("puntaje", total);
 
-      // 4. Mostrar el modal con los resultados finales
+      // Convertir el tiempo final para mostrarlo en el modal
+      const minModal = Math.floor(tiempoFinalEstacion / 60).toString().padStart(2, "0");
+      const segModal = (tiempoFinalEstacion % 60).toString().padStart(2, "0");
+
+      // Mostrar el modal con los resultados finales y tiempo acumulado actualizado
       document.getElementById("modal").style.display = "flex";
       document.getElementById("mensaje").innerHTML =
         "Usted obtuvo <strong>" + puntos + "</strong> puntos en esta actividad.<br><br>" +
         rendimiento + "<br><br>" +
-        "Puntaje acumulado total: <strong>" + total + "</strong>";
+        "Puntaje acumulado total: <strong>" + total + "</strong><br>" +
+        "Tiempo acumulado total: <strong>" + minModal + ":" + segModal + "</strong>";
     }
 
     // CONTINUAR A LA PÁGINA FINAL
+   // CONTINUAR A LA PÁGINA FINAL (Corregido)
     function continuar(){
-      window.location.href = "indicaciones3.html";
+      // Ya no llamamos a la variable local inexistente porque el tiempo se guardó en evaluar()
+      window.location.href = "indicaciones3.html"; 
     }
-
-    // =========================
-    // CRONOMETRO GLOBAL
-    // =========================
-    function actualizarCronometro(){
-      const inicio = localStorage.getItem("inicioTiempo");
-      if(!inicio) return;
-
-      const ahora = Date.now();
-      const transcurrido = Math.floor((ahora - inicio) / 1000);
-
-      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
-      const segundos = (transcurrido % 60).toString().padStart(2, "0");
-
-      document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
-    }
-
-    actualizarCronometro();
-    setInterval(actualizarCronometro, 1000);
   </script>
 
 </body>

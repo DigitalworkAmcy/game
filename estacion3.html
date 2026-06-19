@@ -195,61 +195,103 @@
     /* MODAL */
     .modal {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 50, 100, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background: rgba(15, 23, 42, 0.3); /* Fondo oscuro sutil */
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      animation: fadeInBg 0.4s ease;
+    }
+
+    @keyframes fadeInBg {
+      from { background: rgba(15, 23, 42, 0); backdrop-filter: blur(0px); }
+      to { background: rgba(15, 23, 42, 0.3); backdrop-filter: blur(20px); }
     }
 
     .modal-contenido {
       width: 90%;
-      max-width: 580px;
-      background: rgba(255, 255, 255, 0.95);
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
       color: #0f172a;
-      padding: 40px;
-      border-radius: 25px;
+      padding: 40px 30px;
+      border-radius: 28px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 25px 60px rgba(0, 30, 60, 0.4), 
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      transform: scale(0.9) translateY(20px);
+      animation: scaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes scaleUp {
+      to { transform: scale(1) translateY(0); }
     }
 
     .modal h2 {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-      color: #007bbd;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 25px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #005685, #009ecf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .modal p {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       margin-bottom: 30px;
       line-height: 1.6;
       color: #334155;
-      text-align: left;
-      background: rgba(0, 123, 189, 0.05);
-      padding: 22px;
-      border-radius: 15px;
-      border: 1px solid rgba(0, 123, 189, 0.1);
+      text-align: center; /* Centrado para mejor estética de tarjeta */
+      background: rgba(255, 255, 255, 0.6);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 123, 189, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    /* Contenedor extra para destacar el puntaje numérico */
+    .puntos-badge {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 16px;
+      background: rgba(0, 123, 189, 0.1);
+      color: #007bbd;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
     }
 
     .modal button {
-      padding: 16px 40px;
+      width: 100%;
+      padding: 16px 30px;
       border: none;
-      border-radius: 15px;
+      border-radius: 16px;
       background: linear-gradient(135deg, #007bbd, #00b4ec);
       color: white;
       font-size: 1.1rem;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 123, 189, 0.3);
-      transition: 0.3s;
+      box-shadow: 0 10px 25px rgba(0, 123, 189, 0.25);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
 
     .modal button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 123, 189, 0.4);
       background: linear-gradient(135deg, #00669e, #00a2d4);
-      box-shadow: 0 6px 20px rgba(0, 123, 189, 0.5);
+    }
+    
+    .modal button:active {
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -341,17 +383,7 @@
     </div>
   </div>
 
-  <script>
-    const nombre = localStorage.getItem("jugador");
-    if(nombre){
-      document.getElementById("jugador").innerHTML =
-      "Jugador: <strong>" + nombre + "</strong>";
-    }
-
-    if(localStorage.getItem("puntaje") === null){
-      localStorage.setItem("puntaje", 0);
-    }
-
+ <script>
     function evaluar(){
       let aciertos = 0;
 
@@ -362,6 +394,10 @@
         }
       });
 
+      // === SE GUARDA AQUÍ AL TERMINAR LA ESTACIÓN ===
+      const tiempoFinalEstacion = obtenerTiempoTotalTranscurrido();
+      localStorage.setItem("tiempoAcumulado", tiempoFinalEstacion);
+
       let totalPrevio = parseInt(localStorage.getItem("puntaje")) || 0;
       let nuevoTotal = totalPrevio + (aciertos * 1); 
       localStorage.setItem("puntaje", nuevoTotal);
@@ -369,25 +405,31 @@
       let enunciadoPuntaje = "";
       switch (aciertos) {
         case 3:
-          enunciadoPuntaje = "<strong>🏆 ¡Excelente!</strong><br>¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés manejar las pausas activa. ¡Seguí así!";
+          enunciadoPuntaje = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🏆</span><strong style='font-size: 1.3rem; color: #0f172a; display:block; margin-bottom:10px;'>¡Excelente!</strong>¡Felicitaciones! Todas tus elecciones fueron saludables. Demostraste que sabés manejar las pausas activas. ¡Seguí así!";
           break;
         case 2:
-          enunciadoPuntaje = "<strong>🍏 2 puntos – ¡Podés mejorar!</strong><br>Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas sobre pausas activas";
+          enunciadoPuntaje = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🍏</span><strong style='font-size: 1.3rem; color: #0f172a; display:block; margin-bottom:10px;'>¡Podés mejorar!</strong>Elegiste algunas opciones saludables y otras no tanto. Aprovechá esta oportunidad para conocer alternativas sobre pausas activas.";
           break;
         case 1:
-          enunciadoPuntaje = "<strong>🚦 1 punto – ¡Es momento de revisar tus elecciones!</strong><br>La mayoría de las opciones elegidas no fueron las más saludables. Mejora tu pausa activa.No te quedes";
+          enunciadoPuntaje = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🚦</span><strong style='font-size: 1.3rem; color: #0f172a; display:block; margin-bottom:10px;'>¡A revisar tus elecciones!</strong>La mayoría de las opciones elegidas no fueron las más saludables. Mejorá tu pausa activa. ¡No te quedes!";
           break;
         case 0:
         default:
-          enunciadoPuntaje = "<strong>🩺 0 puntos – ¡Desafío saludable!</strong><br>Tus elecciones no fueron las más beneficiosas para la salud. Las pausas activas ayudan a prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico.";
+          enunciadoPuntaje = "<span style='font-size: 2.5rem; display:block; margin-bottom:10px;'>🩺</span><strong style='font-size: 1.3rem; color: #0f172a; display:block; margin-bottom:10px;'>¡Desafío saludable!</strong>Tus elecciones no fueron las más beneficiosas para la salud. Las pausas activas ayudan a prevenir enfermedades y mejorar la calidad de vida. Consultá a tu médico.";
           break;
       }
 
+      const minModal = Math.floor(tiempoFinalEstacion / 60).toString().padStart(2, "0");
+      const segModal = (tiempoFinalEstacion % 60).toString().padStart(2, "0");
+
       document.getElementById("modal").style.display = "flex";
+      
       document.getElementById("mensaje").innerHTML =
-      enunciadoPuntaje + "<br><br>" +
-      "Respuestas acertadas: <strong>" + aciertos + " / 3</strong><br>" +
-      "Puntaje acumulado total: <strong>" + nuevoTotal + "</strong>";
+        enunciadoPuntaje + "<br>" +
+        "<div class='puntos-badge'>" + "Respuestas: " + aciertos + " / 3" + "</div>" +
+        "<div class='puntos-badge'>" + "Puntaje obtenido: " + aciertos + "</div>" +
+        "<div class='puntos-badge'>" + "Puntaje acumulado: " + nuevoTotal + " pts" + "</div>" +
+        "<div class='puntos-badge'>" + "Tiempo acumulado: " + minModal + ":" + segModal + "</div>";
     }
 
     function avanzarEstacion(){
@@ -398,15 +440,19 @@
       avanzarEstacion();
     }
 
-    function actualizarCronometro(){
-      const inicio = localStorage.getItem("inicioTiempo");
-      if(!inicio) return;
+    // --- CRONÓMETRO CONTINUO ESTACIÓN 3 ---
+    const momentoEntrada = Date.now();
 
-      const ahora = Date.now();
-      const transcurrido = Math.floor((ahora - inicio) / 1000);
+    function obtenerTiempoTotalTranscurrido() {
+      const tiempoPasado = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
+      const tiempoActual = Math.floor((Date.now() - momentoEntrada) / 1000);
+      return tiempoPasado + tiempoActual;
+    }
 
-      const minutos = Math.floor(transcurrido / 60).toString().padStart(2, "0");
-      const segundos = (transcurrido % 60).toString().padStart(2, "0");
+    function actualizarCronometro() {
+      const transcurridoTotal = obtenerTiempoTotalTranscurrido();
+      const minutos = Math.floor(transcurridoTotal / 60).toString().padStart(2, "0");
+      const segundos = (transcurridoTotal % 60).toString().padStart(2, "0");
 
       document.getElementById("cronometro").innerHTML = "Tiempo: " + minutos + ":" + segundos;
     }

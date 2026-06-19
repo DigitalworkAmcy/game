@@ -182,7 +182,7 @@
 
     <div class="card-felicitaciones">
       <p class="mensaje-texto">
-        "Muchas gracias por participar en este circuito de estaciones saludables. Felicitaciones al Comité Organizador, a la Dirección de Salud y Seguridad Ocupacional de la SRT y al Gobierno de la Provincia de La Rioja por promover entornos de trabajo más seguros, sanos y cardioprotegidos."
+        "Muchas gracias por participar en este circuito de estaciones saludables."
       </p>
       
       <div class="imagen-final-contenedor">
@@ -197,37 +197,30 @@
 
   <script>
     window.onload = function() {
-      // 1. Mostrar nombre de equipo
-      const equipoGuardado = localStorage.getItem("equipoJugador") || localStorage.getItem("jugador") || "Invitado";
-      document.getElementById("nombreEquipo").innerText = equipoGuardado;
+      // 1. Cargar nombre del equipo asignado
+      const equipoGuardado = localStorage.getItem("equipoJugador") || localStorage.getItem("jugador");
+      if (equipoGuardado) {
+        document.getElementById("nombreEquipo").innerText = equipoGuardado;
+      }
 
       // 2. Cargar puntaje final acumulado
       const puntajeGuardado = localStorage.getItem("puntaje") || "0";
       document.getElementById("puntajeFinal").innerText = puntajeGuardado + " pts";
 
-      // 3. Procesar y congelar el tiempo total empleado
-      const inicio = localStorage.getItem("inicioTiempo");
-      let tiempoFinal = localStorage.getItem("tiempoFinal");
+      // 3. Procesar el tiempo acumulado total que viene de la Estación 5
+      const tiempoFinal = parseInt(localStorage.getItem("tiempoAcumulado")) || 0;
 
-      if (!tiempoFinal && inicio) {
-        // Guardamos la marca de tiempo solo la primera vez que se accede al cierre
-        tiempoFinal = Math.floor((Date.now() - inicio) / 1000);
-        localStorage.setItem("tiempoFinal", tiempoFinal);
-      } else if (!tiempoFinal) {
-        tiempoFinal = 0;
-      }
-
-      // Dar formato MM:SS al tiempo transcurrido
-      const minutos = Math.floor(parseInt(tiempoFinal) / 60).toString().padStart(2, "0");
-      const segundos = (parseInt(tiempoFinal) % 60).toString().padStart(2, "0");
+      // Dar formato MM:SS al tiempo transcurrido total
+      const minutos = Math.floor(tiempoFinal / 60).toString().padStart(2, "0");
+      const segundos = (tiempoFinal % 60).toString().padStart(2, "0");
       document.getElementById("cronometro").innerText = minutos + ":" + segundos;
     }
 
     function reiniciarJuego() {
       // Limpieza de variables para una nueva sesión conservando el nombre del equipo
-      localStorage.removeItem("tiempoFinal");
+      localStorage.removeItem("tiempoAcumulado");
       localStorage.removeItem("puntaje");
-      localStorage.removeItem("inicioTiempo");
+      localStorage.removeItem("tiempoMusica"); // Opcional, por si usás música
       
       // Redirección estricta al index o pantalla de bienvenida inicial
       window.location.href = "index.html"; 
